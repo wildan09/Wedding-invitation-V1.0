@@ -1,5 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 
+// --- TAMBAHKAN INI UNTUK CEK ---
+console.log("=== ROUTER HASH MODE AKTIF! ===");
+// --------------------------------
 // Perhatikan titiknya CUMA SATU (.) karena folder components ada di sebelahnya
 import Invitation from './components/Invitation.vue';
 import Dashboard from './components/Dashboard.vue';
