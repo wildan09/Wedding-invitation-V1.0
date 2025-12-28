@@ -36,7 +36,7 @@ defineExpose({
 
 <template>
   <div class="fixed top-4 right-4 z-50">
-    <audio ref="audioPlayer" src="../../public/audio/Beautiful In White (Saxophone Cover by Dori Wirawan).mp3" loop></audio>
+    <audio ref="audioPlayer" src="../../public/audio/musik.mp3" loop></audio>
 
     <button 
       @click="toggleMusic"
