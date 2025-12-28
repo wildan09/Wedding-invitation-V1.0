@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+/* 1. SETUP GOOGLE FONTS (Pack Lengkap: Playfair, Pinyon, Lato) */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+/* 2. KONFIGURASI TEMA */
+@theme {
+  --color-gold: #D4AF37;
+  --color-bronze: #8B7355; /* Warna Emas Tua / Perunggu */
+  --color-coffee: #5A4635; /* Warna Coklat Kopi Gelap */
+  --color-cream: #FFFBF2;  /* Warna Krem Background */
+  
+  --color-dark: #0f0f0f;
+  --color-dark-surface: #1a1a1a;
+
+  /* DAFTAR FONT BARU */
+  --font-heading: 'Playfair Display', serif;   /* Untuk Judul Besar (Wildan & Deva) */
+  --font-subheading: 'Cormorant Garamond', serif; /* Untuk sub-judul elegan */
+  --font-script: 'Pinyon Script', cursive;     /* Untuk tulisan latin/sambung */
+  --font-body: 'Lato', sans-serif;             /* Untuk teks biasa/paragraf */
+}
+
+/* 3. GLOBAL STYLES */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-dark);
+  color: white;
+  font-family: var(--font-body); /* Default pakai Lato */
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Utility Classes */
+.font-script {
+  font-family: var(--font-script);
+}
+
+/* ... sisa css animasi float biarkan saja ... */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
