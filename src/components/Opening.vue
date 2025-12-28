@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router'; // Import Router
+import { weddingData } from '../data';
 
 const emit = defineEmits(['open']);
 const route = useRoute();
@@ -38,9 +39,9 @@ const openInvitation = () => {
       <p class="font-body tracking-[0.3em] text-gray-300 mb-4 text-sm animate-pulse">THE WEDDING OF</p>
       
       <h1 class="font-heading text-5xl md:text-6xl text-gold leading-tight drop-shadow-sm mt-4 mb-4">
-          Wildan <br> 
+          {{ weddingData.groom.nickName }}<br> 
           <span class="font-script text-4xl text-[#8B7355]">&</span> 
-          <br> Deva
+          <br> {{ weddingData.bride.nickName }}
       </h1>
 
       <div class="animate-float">

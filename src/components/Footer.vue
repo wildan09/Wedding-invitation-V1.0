@@ -1,4 +1,6 @@
 <script setup>
+import { weddingData } from '@/data';
+
   // Footer Statis
   </script>
   
@@ -23,7 +25,7 @@
           data-aos="zoom-in"
           data-aos-delay="200"
         >
-          Wildan & Deva
+          {{weddingData.groom.nickName}} & {{ weddingData.bride.nickName }}
         </h2>
   
         <hr class="border-gray-800 w-1/2 mx-auto mb-8">

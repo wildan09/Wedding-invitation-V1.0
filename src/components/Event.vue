@@ -1,4 +1,6 @@
 <script setup>
+import { weddingData } from '@/data';
+
   // Data Lokasi (Bisa diganti nanti)
   const mapLink = "https://goo.gl/maps/bHq4..."; // Ganti dengan link Google Maps asli nanti
   </script>
@@ -28,13 +30,13 @@
             </div>
   
             <h3 class="font-heading text-3xl text-gold mb-2">Akad Nikah</h3>
-            <p class="font-bold text-xl mb-4">Jumat, 05 Juni 2026</p>
+            <p class="font-bold text-xl mb-4">{{weddingData.akad.date}}</p>
             
             <div class="space-y-2 text-gray-300 text-sm mb-8">
-              <p>Pukul: <span class="text-gold font-bold">08.00 WIB - Selesai</span></p>
+              <p>Pukul: <span class="text-gold font-bold">{{weddingData.akad.time}}</span></p>
               <p>Bertempat di:</p>
               <p class="font-medium text-white">Masjid Besar Purwosari</p>
-              <p>Jl. Raya Purwosari No. 123</p>
+              <p>{{weddingData.akad.location}}</p>
             </div>
           </div>
   
@@ -50,13 +52,13 @@
             </div>
   
             <h3 class="font-heading text-3xl text-gold mb-2">Resepsi</h3>
-            <p class="font-bold text-xl mb-4">Jumat, 05 Juni 2026</p>
+            <p class="font-bold text-xl mb-4">{{ weddingData.resepsi.date }}</p>
             
             <div class="space-y-2 text-gray-300 text-sm mb-8">
-              <p>Pukul: <span class="text-gold font-bold">11.00 WIB - Selesai</span></p>
+              <p>Pukul: <span class="text-gold font-bold">{{weddingData.resepsi.time}}</span></p>
               <p>Bertempat di:</p>
               <p class="font-medium text-white">Kediaman Mempelai Wanita</p>
-              <p>Dsn. Bla Bla, Ds. Purwosari</p>
+              <p>{{weddingData.resepsi.location}}</p>
             </div>
           </div>
   

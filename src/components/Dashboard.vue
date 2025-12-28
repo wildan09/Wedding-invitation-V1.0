@@ -7,7 +7,7 @@ import QrcodeVue from 'qrcode.vue'; // <-- 1. Import Library QR
 const isAuthenticated = ref(false);
 const passwordInput = ref('');
 const errorMsg = ref('');
-const ADMIN_PASSWORD = 'admin'; 
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD; 
 
 const handleLogin = () => {
   if (passwordInput.value === ADMIN_PASSWORD) {

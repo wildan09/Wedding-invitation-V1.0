@@ -1,4 +1,6 @@
 <script setup>
+import { weddingData } from '@/data';
+
   // Tidak perlu logic khusus di sini, hanya tampilan statis
   </script>
   
@@ -33,15 +35,15 @@
               </div>
             </div>
   
-            <h3 class="font-heading text-3xl text-gold mb-2">Wildan</h3>
-            <p class="font-body text-white font-medium mb-1">Muhammad Wildan Vicki Fahmi Akbar S.Kom., M.M</p>
+            <h3 class="font-heading text-3xl text-gold mb-2">{{ weddingData.groom.nickName }}</h3>
+            <p class="font-body text-white font-medium mb-1">{{ weddingData.groom.fullName }}</p>
             <p class="text-gray-400 text-sm mb-4">
-              Putra dari Bpk. Fulan <br>& Ibu Fulanah
+              {{ weddingData.groom.father }}<br>& {{ weddingData.groom.mother }}
             </p>
             
             <a href="#" class="inline-flex items-center gap-2 text-xs text-gold border border-gold/50 px-4 py-1 rounded-full hover:bg-gold hover:text-dark transition">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-              @wildan
+              @wildanvfa
             </a>
           </div>
   
@@ -67,15 +69,15 @@
               </div>
             </div>
   
-            <h3 class="font-heading text-3xl text-gold mb-2">Deva</h3>
-            <p class="font-body text-white font-medium mb-1">Deva Putri Dyana S.Tp.</p>
+            <h3 class="font-heading text-3xl text-gold mb-2">{{ weddingData.bride.nickName }}</h3>
+            <p class="font-body text-white font-medium mb-1">{{weddingData.bride.fullName}}</p>
             <p class="text-gray-400 text-sm mb-4">
-              Putri dari Bpk. Fulan <br>& Ibu Fulanah
+              {{weddingData.bride.father}} <br>& {{ weddingData.bride.mother }}
             </p>
   
             <a href="#" class="inline-flex items-center gap-2 text-xs text-gold border border-gold/50 px-4 py-1 rounded-full hover:bg-gold hover:text-dark transition">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-              @deva
+              @devaptr
             </a>
           </div>
   
