@@ -3,30 +3,30 @@
 export const weddingData = {
   // --- Data Mempelai ---
   groom: {
-    nickName: "Vicki", // Nama Panggilan
-    fullName: "Wildan Sauqi, S.Kom", // Nama Lengkap
-    father: "Bpk. Fulan",
-    mother: "Ibu Fulanah",
+    nickName: "wildan", // Nama Panggilan
+    fullName: "Muhammad Wildan Vicki Fahmi akbar, S.Kom., M.M", // Nama Lengkap
+    father: "Alm.H.Moh Yusuf",
+    mother: "Ibu Siti Fatimah",
     instagram : "@wildanvfa"
   },
   bride: {
-    nickName: "Dian",
-    fullName: "Deva Aulia, S.Ds",
-    father: "Bpk. Alan",
-    mother: "Ibu Alin",
+    nickName: "Deva",
+    fullName: "Deva Putri Dyana",
+    father: "Bpk. Muhammad Daud",
+    mother: "Ibu Dewi Santi",
     instagram: "@devaptr"
   },
 
   // --- Data Acara ---
   akad :{
-    date: "Minggu, 20 Oktober 2025", 
+    date: "Jumat, 05 juni 2026", 
     time: "08.00 WIB - Selesai",
-    location: "Gedung Serbaguna Jakarta",
+    location: "kediaman Mempelai Wanita",
   },
   resepsi : {
-    date: "Minggu, 20 Oktober 2025", 
-    time: "08.00 WIB - Selesai",
-    location: "Gedung Serbaguna Jakarta",
+    date: "Jumat, 05 Juni 2026", 
+    time: "13.00 WIB - Selesai",
+    location: "Kediaman mempelai Wanita",
   },
 
   
