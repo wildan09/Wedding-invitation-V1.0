@@ -1,72 +1,64 @@
 <script setup>
-    import { ref } from 'vue';
-    
-    // State: Apakah musik sedang main?
-    const isPlaying = ref(false);
-    const audioRef = ref(null);
-    
-    // Link Lagu (Ganti dengan file MP3 Bapak, misal: '/audio/song.mp3')
-    // Ini saya pakai link dummy instrumen piano dulu
-    const audioSource = "../../public/audio/Gending Temanten Adat Jawa  kebo giro.mp3"; 
-    
-    // 1. Fungsi Toggle (Dipanggil saat tombol musik diklik)
-    const toggleMusic = () => {
-      if (isPlaying.value) {
-        audioRef.value.pause();
-        isPlaying.value = false;
-      } else {
-        audioRef.value.play();
-        isPlaying.value = true;
-      }
-    };
-    
-    // 2. Fungsi Play Eksternal (Dipanggil oleh App.vue saat tombol "Buka Undangan" diklik)
-    const playMusic = () => {
-      if (audioRef.value) {
-        audioRef.value.play()
-          .then(() => {
-            isPlaying.value = true;
-          })
-          .catch((err) => {
-            console.log("Autoplay dicegah browser, user harus interaksi dulu:", err);
-          });
-      }
-    };
-    
-    // Expose fungsi ini agar bisa dipanggil dari luar komponen
-    defineExpose({
-      playMusic
+import { ref, defineExpose } from 'vue';
+
+// 1. STATE MUSIK
+const isPlaying = ref(false);
+const audioPlayer = ref(null); // Ini untuk memegang elemen <audio>
+
+// 2. FUNGSI PUTAR/PAUSE (Dipakai tombol piringan hitam)
+const toggleMusic = () => {
+  if (isPlaying.value) {
+    audioPlayer.value.pause();
+  } else {
+    audioPlayer.value.play();
+  }
+  isPlaying.value = !isPlaying.value;
+};
+
+// 3. FUNGSI UNTUK DIPANGGIL DARI LUAR (Oleh Invitation.vue)
+const playMusic = () => {
+  // Coba play, kalau error (karena browser block) kita tangkap
+  audioPlayer.value.play()
+    .then(() => {
+      isPlaying.value = true;
+    })
+    .catch((error) => {
+      console.log("Autoplay dicegah browser, user harus klik manual:", error);
+      isPlaying.value = false;
     });
-    </script>
-    
-    <template>
-      <div class="fixed bottom-6 left-6 z-50">
-        
-        <audio ref="audioRef" loop>
-          <source :src="audioSource" type="audio/mpeg">
-        </audio>
-    
-        <button 
-          @click="toggleMusic"
-          class="w-12 h-12 bg-gold/90 text-dark rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(212,175,55,0.6)] border-2 border-white/20 backdrop-blur-sm transition hover:scale-110"
-        >
-          <div :class="isPlaying ? 'animate-spin-slow' : ''">
-            <svg v-if="isPlaying" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-            
-            <svg v-else xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" x2="23" y1="1" y2="23"/><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-          </div>
-        </button>
-    
-      </div>
-    </template>
-    
-    <style scoped>
-    /* Animasi Putar Pelan (Seperti Piringan Hitam) */
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    .animate-spin-slow {
-      animation: spin 4s linear infinite;
-    }
-    </style>
+};
+
+// 4. WAJIB: Buka akses fungsi ini ke luar
+defineExpose({
+  playMusic
+});
+</script>
+
+<template>
+  <div class="fixed top-4 right-4 z-50">
+    <audio ref="audioPlayer" src="../../public/audio/Beautiful In White (Saxophone Cover by Dori Wirawan).mp3" loop></audio>
+
+    <button 
+      @click="toggleMusic"
+      class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/50 flex items-center justify-center animate-spin-slow"
+      :class="{ 'paused': !isPlaying }"
+    >
+      <span v-if="isPlaying">🎵</span>
+      <span v-else>🔇</span>
+    </button>
+  </div>
+</template>
+
+<style scoped>
+/* Animasi Putar Piringan */
+.animate-spin-slow {
+  animation: spin 4s linear infinite;
+}
+.paused {
+  animation-play-state: paused;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+</style>
