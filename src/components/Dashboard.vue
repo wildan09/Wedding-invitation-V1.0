@@ -1,17 +1,17 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'; // Tambah onBeforeUnmount
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { supabase } from '../supabase';
 import QrcodeVue from 'qrcode.vue';
-import { useRouter } from 'vue-router'; 
-import { weddingData } from '../data';
-
+import { useRouter } from 'vue-router';
+// IMPORT DATA PENGANTIN (Pastikan path ini sesuai dengan lokasi file data.js bapak)
+import { weddingData } from '../data/data'; 
 
 const router = useRouter();
 
-// --- KONFIGURASI SESI ---
-const SESSION_KEY = 'admin_session'; // Nama kunci di LocalStorage
-const SESSION_DURATION = 30 * 60 * 1000; // 30 Menit dalam milidetik
-let sessionTimer = null; // Variable untuk timer hitung mundur
+// --- KONFIGURASI SESI (30 MENIT) ---
+const SESSION_KEY = 'admin_session'; 
+const SESSION_DURATION = 30 * 60 * 1000; 
+let sessionTimer = null;
 
 // --- LOGIN STATE ---
 const isAuthenticated = ref(false);
@@ -19,151 +19,81 @@ const passwordInput = ref('');
 const errorMsg = ref('');
 const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD; 
 
-// 1. LOGIC LOGIN (Simpan Waktu Kadaluarsa)
+// --- LOGIC LOGIN & SESI ---
 const handleLogin = () => {
   if (passwordInput.value === ADMIN_PASSWORD) {
     const now = new Date();
-    
-    // Kita simpan Objek: { value: true, expiry: JamSekarang + 30menit }
-    const sessionData = {
-      value: true,
-      expiry: now.getTime() + SESSION_DURATION,
-    };
-
+    const sessionData = { value: true, expiry: now.getTime() + SESSION_DURATION };
     localStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
     
     isAuthenticated.value = true;
     fetchGuests();
-    
-    // Mulai hitung mundur otomatis dari sekarang
     startSessionTimer(SESSION_DURATION);
   } else {
-    errorMsg.value = 'Password salah !';
+    errorMsg.value = 'Password salah!';
   }
 };
 
-// 2. LOGIC LOGOUT (Bersihkan Semuanya)
 const logout = (isAuto = false) => {
   isAuthenticated.value = false;
   localStorage.removeItem(SESSION_KEY);
-  
-  if (sessionTimer) clearTimeout(sessionTimer); // Matikan timer
-  
-  if (isAuto) {
-    alert("Sesi Anda telah habis (30 Menit). Silakan login kembali.");
-  }
-  
-  // Opsional: Reload halaman biar bersih
-  window.location.href = '/admin'; 
+  if (sessionTimer) clearTimeout(sessionTimer);
+  if (isAuto) alert("Sesi habis (30 Menit). Silakan login kembali.");
+  router.push('/admin'); // Atau window.location.reload()
 };
 
-// 3. LOGIC CEK SESI (Saat Halaman Dibuka/Refresh)
 const checkSession = () => {
   const sessionStr = localStorage.getItem(SESSION_KEY);
-  
-  // Kalau tidak ada data sesi -> Logout
   if (!sessionStr) return;
-
   const session = JSON.parse(sessionStr);
   const now = new Date().getTime();
 
-  // Kalau Waktu Sekarang > Waktu Kadaluarsa -> Logout
   if (now > session.expiry) {
-    logout(true); // True artinya logout otomatis karena expired
+    logout(true);
     return;
   }
-
-  // Kalau Masih Berlaku -> Masuk
   isAuthenticated.value = true;
   fetchGuests();
-
-  // Hitung sisa waktu yang ada, lalu pasang timer lagi
-  // (Misal user refresh halaman di menit ke-10, berarti sisa 20 menit)
-  const remainingTime = session.expiry - now;
-  startSessionTimer(remainingTime);
+  startSessionTimer(session.expiry - now);
 };
 
-// Helper: Timer Penghancur Sesi
 const startSessionTimer = (duration) => {
-  // Reset timer lama kalau ada
   if (sessionTimer) clearTimeout(sessionTimer);
-
-  // Set timer baru sesuai sisa waktu
-  sessionTimer = setTimeout(() => {
-    logout(true);
-  }, duration);
+  sessionTimer = setTimeout(() => { logout(true); }, duration);
 };
 
-// --- LIFECYCLE VUE ---
-onMounted(() => {
-  checkSession(); // Cek saat pertama kali buka
-});
+onMounted(() => { checkSession(); });
+onBeforeUnmount(() => { if (sessionTimer) clearTimeout(sessionTimer); });
 
-onBeforeUnmount(() => {
-  // Bersihkan timer kalau pindah halaman (biar memori aman)
-  if (sessionTimer) clearTimeout(sessionTimer);
-});
-// logic share to Whatsapp 
-const shareToWa = (guest) => {
-    // 1. menyiapkan link unik tamu 
-    const fullUrl = '${window.location.origin}/#/?to=${slugToNiceName(guest.slug)}'
-    const message = `Assalamu'alaikum Wr. Wb
-Bismillahirahmanirrahim.
-
-Yth. ${guest.name}
-
-Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i, teman sekaligus sahabat, untuk menghadiri acara pernikahan kami :
-
-${weddingData.groom.nickName} & ${weddingData.bride.nickName}
-
-Berikut link undangan kami untuk info lengkap dari acara bisa kunjungi :
-
-${fullUrl}
-
-Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir dan memberikan doa restu.
-
-Mohon maaf perihal undangan hanya di bagikan melalui pesan ini. Terima kasih banyak atas perhatiannya.
-
-Wassalamu'alaikum Wr. Wb.
-Terima Kasih.`;
-const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-  window.open(whatsappUrl, '_blank');
-};
-
-
-// --- DASHBOARD LOGIC (SAMA SEPERTI SEBELUMNYA) ---
+// --- DASHBOARD DATA ---
 const guests = ref([]);
 const newName = ref('');
 const newCategory = ref('Teman Kerja');
 const isLoading = ref(false);
 const categories = ['Keluarga', 'Teman Kerja', 'Teman Sekolah', 'VIP', 'Tetangga'];
 
-// STATE UNTUK MODAL QR
+// --- MODAL QR ---
 const showQrModal = ref(false);
 const qrValue = ref('');
 const qrName = ref('');
 
+// --- CRUD LOGIC ---
 const fetchGuests = async () => {
-  const { data, error } = await supabase
-    .from('guests')
-    .select('*')
-    .order('created_at', { ascending: false });
+  const { data, error } = await supabase.from('guests').select('*').order('created_at', { ascending: false });
   if (!error) guests.value = data;
 };
 
 const addGuest = async () => {
   if (!newName.value) return alert("Nama wajib diisi!");
   isLoading.value = true;
-  
+
+  // Regex Baru: Izinkan Huruf, Angka, Spasi, Strip, Titik, Koma, TitikKoma, Kurung, Petik
   const slug = newName.value.toLowerCase()
-    .replace(/ /g, '-')                 // 1. Spasi jadi strip
-    .replace(/[^\w-.,;()']+/g, '');     // 2. Hapus sisa sampah selain simbol di atas
+    .replace(/ /g, '-')
+    .replace(/[^\w-.,;()']+/g, '');
 
-  // Simpan ke database
-  const { error } = await supabase
-    .from('guests')
-    .insert([{ name: newName.value, category: newCategory.value, slug: slug }]);
-
+  const { error } = await supabase.from('guests').insert([{ name: newName.value, category: newCategory.value, slug: slug }]);
+  
   isLoading.value = false;
   if (!error) {
     newName.value = '';
@@ -185,6 +115,39 @@ const copyLink = (slug) => {
   alert("Link tersalin!\n" + fullUrl);
 };
 
+// --- LOGIC SHARE WA (DINAMIS) ---
+const shareToWa = (guest) => {
+  const fullUrl = `${window.location.origin}/#/?to=${slugToNiceName(guest.slug)}`;
+  
+  // Ambil Nama dari data.js
+  // Pastikan data 'groom' dan 'bride' ada di file data.js
+  const groom = weddingData.groom?.nickName || "Nama Pria";
+  const bride = weddingData.bride?.nickName || "Nama Wanita";
+  const coupleName = `${groom} & ${bride}`;
+
+  const message = `Assalamu'alaikum Wr. Wb
+Bismillahirahmanirrahim.
+
+Yth. ${guest.name}
+
+Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i, teman sekaligus sahabat, untuk menghadiri acara pernikahan kami :
+
+${coupleName}
+
+Berikut link undangan kami untuk info lengkap dari acara bisa kunjungi :
+
+${fullUrl}
+
+Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir dan memberikan doa restu.
+
+Mohon maaf perihal undangan hanya di bagikan melalui pesan ini. Terima kasih banyak atas perhatiannya.
+
+Wassalamu'alaikum Wr. Wb.
+Terima Kasih.`;
+
+  window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+};
+
 const slugToNiceName = (slug) => {
   return slug.replace(/-/g, '+').replace(/\b\w/g, l => l.toUpperCase());
 }
@@ -195,56 +158,40 @@ const openQrCode = (guest) => {
   showQrModal.value = true;
 };
 
-// Fungsi ke Scanner
-const goToScanner = () => {
-  router.push('/scan');
-};
+const goToScanner = () => { router.push('/scan'); };
 </script>
 
 <template>
   <div class="min-h-screen bg-gray-100 font-body text-gray-800">
     
-    <div v-if="!isAuthenticated" class="flex items-center justify-center min-h-screen bg-dark">
+    <div v-if="!isAuthenticated" class="flex items-center justify-center min-h-screen bg-gray-900">
       <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm text-center">
-        <h2 class="text-2xl font-heading text-dark mb-2">Login Admin</h2>
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">Login Admin</h2>
         <form @submit.prevent="handleLogin" class="space-y-4 mt-6">
           <input v-model="passwordInput" type="password" placeholder="Password" class="w-full border p-3 rounded-lg text-center">
-          <p v-if="errorMsg" class="text-red-500 text-xs">{{ errorMsg }}</p>
-          <button type="submit" class="w-full bg-gold text-dark font-bold py-3 rounded-lg">Masuk</button>
+          <p v-if="errorMsg" class="text-red-500 text-xs font-bold">{{ errorMsg }}</p>
+          <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700">Masuk</button>
         </form>
       </div>
     </div>
 
-    <div v-else class="p-8 max-w-6xl mx-auto">
+    <div v-else class="p-4 md:p-8 max-w-6xl mx-auto">
       
-     <div class="flex flex-col md:flex-row justify-between items-center mb-8 border-b pb-4 gap-4">
-  
-  <div>
-    <h1 class="text-3xl font-bold text-dark">Dashboard Undangan</h1>
-    <p class="text-gray-500 text-sm">Total Tamu: {{ guests.length }}</p>
-  </div>
+      <div class="flex flex-col md:flex-row justify-between items-center mb-8 bg-white p-6 rounded-xl shadow-sm gap-4">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-800">Dashboard Tamu</h1>
+          <p class="text-gray-500 text-sm">Total: {{ guests.length }} | Hadir: {{ guests.filter(g => g.status === 'Hadir').length }}</p>
+        </div>
+        <div class="flex gap-3">
+          <button @click="goToScanner" class="bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded-lg font-bold shadow-md flex items-center gap-2 transition transform hover:scale-105">
+            📷 Scan QR
+          </button>
+          <button @click="logout" class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg font-bold shadow-md transition">Logout</button>
+        </div>
+      </div>
 
-  <div class="flex gap-3">
-    
-    <button 
-      @click="goToScanner" 
-      class="bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded-lg font-bold shadow-md flex items-center gap-2 transition"
-    >
-      📷 Scan QR
-    </button>
-    
-    <button 
-      @click="logout" 
-      class="bg-gray-800 hover:bg-gray-900 text-white px-5 py-2 rounded-lg font-bold shadow-md transition"
-    >
-      Logout
-    </button>
-
-  </div>
-
-</div>
-
-      <div class="bg-white p-6 rounded-xl shadow-md mb-8">
+      <div class="bg-white p-6 rounded-xl shadow-sm mb-8">
+        <h3 class="font-bold text-gray-700 mb-4">Tambah Tamu</h3>
         <div class="flex flex-col md:flex-row gap-4">
           <input v-model="newName" type="text" placeholder="Nama Tamu..." class="flex-1 border p-3 rounded-lg" @keyup.enter="addGuest">
           <select v-model="newCategory" class="border p-3 rounded-lg bg-gray-50"><option v-for="cat in categories" :key="cat">{{ cat }}</option></select>
@@ -252,59 +199,58 @@ const goToScanner = () => {
         </div>
       </div>
 
-      <div class="bg-white rounded-xl shadow-md overflow-hidden">
-        <table class="w-full text-left border-collapse">
-          <thead class="bg-gray-100 text-gray-600 text-sm uppercase">
-            <tr>
-              <th class="p-4">Nama Tamu</th>
-              <th class="p-4">Kategori</th>
-              <th class="p-4 text-center">Status</th>
-              <th class="p-4 text-center">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="guest in guests" :key="guest.id" class="border-b hover:bg-gray-50">
-              <td class="p-4 font-bold">{{ guest.name }}</td>
-              <td class="p-4"><span class="bg-gray-200 px-2 py-1 rounded text-xs">{{ guest.category }}</span></td>
-              <td class="p-4 text-center">
-                 <span class="px-2 py-1 rounded text-xs font-bold" 
-                   :class="guest.status === 'Hadir' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'">
-                   {{ guest.status }}
-                 </span>
-              </td>
-              <td class="p-4 text-center">
-                <div class="flex justify-center gap-2">
+      <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead class="bg-gray-50 text-gray-600 text-sm uppercase">
+              <tr>
+                <th class="p-4 border-b">Nama Tamu</th>
+                <th class="p-4 border-b">Kategori</th>
+                <th class="p-4 border-b text-center">Status</th>
+                <th class="p-4 border-b text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="guest in guests" :key="guest.id" class="border-b hover:bg-gray-50 transition">
+                <td class="p-4 font-bold text-gray-800">{{ guest.name }}</td>
+                <td class="p-4"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-bold">{{ guest.category }}</span></td>
+                <td class="p-4 text-center">
+                  <span class="px-3 py-1 rounded-full text-xs font-bold border" 
+                    :class="guest.status === 'Hadir' ? 'bg-green-100 text-green-700 border-green-200' : 'bg-gray-100 text-gray-500 border-gray-200'">
+                    {{ guest.status }}
+                  </span>
+                </td>
+                
+                <td class="p-4 text-center">
+                  <div class="flex justify-center gap-2 flex-wrap">
+                    
                     <button @click="shareToWa(guest)" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm flex items-center gap-1 transition shadow-sm" title="Kirim WA">
                       📲 WA
                     </button>
-                  <button @click="copyLink(guest.slug)" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded text-sm">🔗 Link</button>
-                  
-                  <button @click="openQrCode(guest)" class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded text-sm flex items-center gap-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                    QR
-                  </button>
-                  
-                  <button @click="deleteGuest(guest.id)" class="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded text-sm">Hapus</button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
 
+                    <button @click="copyLink(guest.slug)" class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-1 rounded text-sm border transition">🔗 Copy</button>
+                    
+                    <button @click="openQrCode(guest)" class="bg-purple-100 hover:bg-purple-200 text-purple-700 px-3 py-1 rounded text-sm border border-purple-200 flex items-center gap-1 transition">📱 QR</button>
+                    
+                    <button @click="deleteGuest(guest.id)" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1 rounded text-sm border border-red-200 transition">🗑️</button>
+                  </div>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
     <div v-if="showQrModal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" @click="showQrModal = false">
-      <div class="bg-white p-8 rounded-2xl max-w-sm w-full text-center" @click.stop>
-        <h3 class="text-xl font-heading text-dark mb-2">QR Code Undangan</h3>
-        <p class="text-lg font-bold text-gold mb-6">{{ qrName }}</p>
-        
+      <div class="bg-white p-8 rounded-2xl max-w-sm w-full text-center shadow-2xl" @click.stop>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">QR Code Tamu</h3>
+        <p class="text-lg font-bold text-blue-600 mb-6">{{ qrName }}</p>
         <div class="bg-white p-4 border-2 border-dashed border-gray-300 rounded-xl inline-block mb-6">
           <QrcodeVue :value="qrValue" :size="200" level="H" />
         </div>
-
-        <p class="text-xs text-gray-500 mb-6 break-all">{{ qrValue }}</p>
-
+        <p class="text-xs text-gray-400 mb-6 break-all bg-gray-50 p-2 rounded">{{ qrValue }}</p>
         <button @click="showQrModal = false" class="bg-gray-800 text-white w-full py-3 rounded-lg font-bold">Tutup</button>
       </div>
     </div>
