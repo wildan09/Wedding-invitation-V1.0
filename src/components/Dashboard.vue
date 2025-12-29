@@ -4,7 +4,7 @@ import { supabase } from '../supabase';
 import QrcodeVue from 'qrcode.vue';
 import { useRouter } from 'vue-router';
 // IMPORT DATA PENGANTIN
-import { weddingData } from '../data.js'; 
+import { weddingData } from '../data'; 
 
 const router = useRouter();
 
