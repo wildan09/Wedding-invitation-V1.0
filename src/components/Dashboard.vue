@@ -323,7 +323,7 @@ const goToScanner = () => { router.push('/scan'); };
                     <button @click="shareToWa(guest)" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm flex items-center gap-1 transition shadow-sm" title="Kirim WA">📲 WA</button>
                     <button @click="copyLink(guest.slug)" class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-1 rounded text-sm border transition">🔗 Copy</button>
                     <button @click="openQrCode(guest)" class="bg-purple-100 hover:bg-purple-200 text-purple-700 px-3 py-1 rounded text-sm border border-purple-200 flex items-center gap-1 transition">📱 QR</button>
-                    <button @click="deleteGuest(guest.id)" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1 rounded text-sm border border-red-200 transition">🗑️</button>
+                    <button @click="deleteGuest(guest.id)" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1 rounded text-sm border border-red-200 transition">❌ delete</button>
                   </div>
                 </td>
               </tr>
