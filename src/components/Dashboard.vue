@@ -125,8 +125,15 @@ const fetchGuests = async () => {
 const addGuest = async () => {
   if (!newName.value) return alert("Nama wajib diisi!");
   isLoading.value = true;
-  const slug = newName.value.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
 
+  // --- PERBAIKAN DI SINI ---
+  // Penjelasan Regex: 
+  // [^\w-.,] artinya: Hapus semua karakter KECUALI (^) Huruf/Angka (\w), Strip (-), Titik (.), dan Koma (,)
+  const slug = newName.value.toLowerCase()
+    .replace(/ /g, '-')            // 1. Spasi ubah jadi strip
+    .replace(/[^\w-.,]+/g, '');    // 2. Hapus simbol aneh, TAPI sisakan . dan ,
+
+  // Simpan ke database
   const { error } = await supabase
     .from('guests')
     .insert([{ name: newName.value, category: newCategory.value, slug: slug }]);
