@@ -3,6 +3,8 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'; // Tambah onBeforeUnmount
 import { supabase } from '../supabase';
 import QrcodeVue from 'qrcode.vue';
 import { useRouter } from 'vue-router'; 
+import { weddingData } from '../data';
+
 
 const router = useRouter();
 
@@ -101,6 +103,33 @@ onBeforeUnmount(() => {
   // Bersihkan timer kalau pindah halaman (biar memori aman)
   if (sessionTimer) clearTimeout(sessionTimer);
 });
+// logic share to Whatsapp 
+const shareToWa = (guest) => {
+    // 1. menyiapkan link unik tamu 
+    const fullUrl = '${window.location.origin}/#/?to=${slugToNiceName(guest.slug)}'
+    const message = `Assalamu'alaikum Wr. Wb
+Bismillahirahmanirrahim.
+
+Yth. ${guest.name}
+
+Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i, teman sekaligus sahabat, untuk menghadiri acara pernikahan kami :
+
+${weddingData.groom.nickName} & ${weddingData.bride.nickName}
+
+Berikut link undangan kami untuk info lengkap dari acara bisa kunjungi :
+
+${fullUrl}
+
+Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir dan memberikan doa restu.
+
+Mohon maaf perihal undangan hanya di bagikan melalui pesan ini. Terima kasih banyak atas perhatiannya.
+
+Wassalamu'alaikum Wr. Wb.
+Terima Kasih.`;
+const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+  window.open(whatsappUrl, '_blank');
+};
+
 
 // --- DASHBOARD LOGIC (SAMA SEPERTI SEBELUMNYA) ---
 const guests = ref([]);
@@ -125,16 +154,6 @@ const fetchGuests = async () => {
 const addGuest = async () => {
   if (!newName.value) return alert("Nama wajib diisi!");
   isLoading.value = true;
-
-  // --- PERBAIKAN LOGIC SLUG ---
-  // Penjelasan Simbol yang diizinkan sekarang:
-  // \w = Huruf & Angka
-  // -  = Strip (Pengganti spasi)
-  // .  = Titik
-  // ,  = Koma
-  // ;  = Titik Koma (YANG BAPAK MINTA)
-  // '  = Petik satu (Contoh: Ma'ruf)
-  // () = Kurung (Contoh: (Alm))
   
   const slug = newName.value.toLowerCase()
     .replace(/ /g, '-')                 // 1. Spasi jadi strip
