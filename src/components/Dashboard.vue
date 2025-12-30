@@ -1,35 +1,38 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { supabase } from '../supabase';
-import QrcodeVue from 'qrcode.vue';
-import { useRouter } from 'vue-router';
-import { weddingData } from '../data.js'; 
-import * as XLSX from 'xlsx'; 
+import { ref, onMounted, onBeforeUnmount } from "vue";
+import { supabase } from "../supabase";
+import QrcodeVue from "qrcode.vue";
+import { useRouter } from "vue-router";
+import { weddingData } from "../data.js";
+import * as XLSX from "xlsx";
 
 const router = useRouter();
 
 // --- KONFIGURASI SESI ---
-const SESSION_KEY = 'admin_session'; 
-const SESSION_DURATION = 30 * 60 * 1000; 
+const SESSION_KEY = "admin_session";
+const SESSION_DURATION = 30 * 60 * 1000;
 let sessionTimer = null;
 
 // --- LOGIN STATE ---
 const isAuthenticated = ref(false);
-const passwordInput = ref('');
-const errorMsg = ref('');
-const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD; 
+const passwordInput = ref("");
+const errorMsg = ref("");
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD;
 
 // --- LOGIC LOGIN ---
 const handleLogin = () => {
   if (passwordInput.value === ADMIN_PASSWORD) {
     const now = new Date();
-    const sessionData = { value: true, expiry: now.getTime() + SESSION_DURATION };
+    const sessionData = {
+      value: true,
+      expiry: now.getTime() + SESSION_DURATION,
+    };
     localStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
     isAuthenticated.value = true;
     fetchGuests();
     startSessionTimer(SESSION_DURATION);
   } else {
-    errorMsg.value = 'Password salah!';
+    errorMsg.value = "Password salah!";
   }
 };
 
@@ -38,7 +41,7 @@ const logout = (isAuto = false) => {
   localStorage.removeItem(SESSION_KEY);
   if (sessionTimer) clearTimeout(sessionTimer);
   if (isAuto) alert("Sesi habis. Silakan login kembali.");
-  router.push('/admin'); 
+  router.push("/admin");
 };
 
 const checkSession = () => {
@@ -46,7 +49,10 @@ const checkSession = () => {
   if (!sessionStr) return;
   const session = JSON.parse(sessionStr);
   const now = new Date().getTime();
-  if (now > session.expiry) { logout(true); return; }
+  if (now > session.expiry) {
+    logout(true);
+    return;
+  }
   isAuthenticated.value = true;
   fetchGuests();
   startSessionTimer(session.expiry - now);
@@ -54,49 +60,73 @@ const checkSession = () => {
 
 const startSessionTimer = (duration) => {
   if (sessionTimer) clearTimeout(sessionTimer);
-  sessionTimer = setTimeout(() => { logout(true); }, duration);
+  sessionTimer = setTimeout(() => {
+    logout(true);
+  }, duration);
 };
 
-onMounted(() => { checkSession(); });
-onBeforeUnmount(() => { if (sessionTimer) clearTimeout(sessionTimer); });
+onMounted(() => {
+  checkSession();
+});
+onBeforeUnmount(() => {
+  if (sessionTimer) clearTimeout(sessionTimer);
+});
 
 // --- CRUD DATA ---
 const guests = ref([]);
-const newName = ref('');
-const newCategory = ref('Teman Kerja');
+const newName = ref("");
+const newCategory = ref("Teman Kerja");
 const isLoading = ref(false);
-const categories = ['Keluarga', 'Teman Kerja', 'Teman Sekolah', 'VIP', 'Tetangga'];
+const categories = [
+  "Keluarga",
+  "Teman Kerja",
+  "Teman Sekolah",
+  "VIP",
+  "Tetangga",
+];
 const showQrModal = ref(false);
-const qrValue = ref('');
-const qrName = ref('');
-const fileInput = ref(null); 
+const qrValue = ref("");
+const qrName = ref("");
+const fileInput = ref(null);
 
 const fetchGuests = async () => {
-  const { data, error } = await supabase.from('guests').select('*').order('created_at', { ascending: false });
+  const { data, error } = await supabase
+    .from("guests")
+    .select("*")
+    .order("created_at", { ascending: false });
   if (!error) guests.value = data;
 };
 
 const addGuest = async () => {
   if (!newName.value) return alert("Nama wajib diisi!");
   isLoading.value = true;
-  const slug = newName.value.toLowerCase().replace(/ /g, '-').replace(/[^\w-.,;()']+/g, '');
-  const { error } = await supabase.from('guests').insert([{ name: newName.value, category: newCategory.value, slug: slug }]);
+  const slug = newName.value
+    .toLowerCase()
+    .replace(/ /g, "-")
+    .replace(/[^\w-.,;()']+/g, "");
+  const { error } = await supabase
+    .from("guests")
+    .insert([{ name: newName.value, category: newCategory.value, slug: slug }]);
   isLoading.value = false;
-  if (!error) { newName.value = ''; fetchGuests(); } 
-  else { alert("Gagal/Nama sudah ada."); }
+  if (!error) {
+    newName.value = "";
+    fetchGuests();
+  } else {
+    alert("Gagal/Nama sudah ada.");
+  }
 };
 
 const deleteGuest = async (id) => {
-  if(!confirm("Hapus tamu ini?")) return;
-  const { error } = await supabase.from('guests').delete().eq('id', id);
+  if (!confirm("Hapus tamu ini?")) return;
+  const { error } = await supabase.from("guests").delete().eq("id", id);
   if (!error) fetchGuests();
 };
 
 // --- EXCEL LOGIC ---
 const downloadTemplate = () => {
   const templateData = [
-    { "Nama Tamu": "Contoh: Budi Santoso", "Kategori": "Teman Kerja" },
-    { "Nama Tamu": "Siti Aminah, S.Pd", "Kategori": "Keluarga" }
+    { "Nama Tamu": "Contoh: Budi Santoso", Kategori: "Teman Kerja" },
+    { "Nama Tamu": "Siti Aminah, S.Pd", Kategori: "Keluarga" },
   ];
   const ws = XLSX.utils.json_to_sheet(templateData);
   const wb = XLSX.utils.book_new();
@@ -104,56 +134,78 @@ const downloadTemplate = () => {
   XLSX.writeFile(wb, "Template_Undangan.xlsx");
 };
 
-const triggerFileInput = () => { fileInput.value.click(); };
+const triggerFileInput = () => {
+  fileInput.value.click();
+};
 
 const handleFileUpload = (event) => {
   const file = event.target.files[0];
   if (!file) return;
 
   const reader = new FileReader();
-  
+
   reader.onload = async (e) => {
     try {
       isLoading.value = true;
       const data = new Uint8Array(e.target.result);
-      const workbook = XLSX.read(data, { type: 'array' });
+      const workbook = XLSX.read(data, { type: "array" });
       const firstSheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[firstSheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet);
 
-      const formattedData = jsonData.map(row => {
-        const rawName = row['Nama Tamu'] || row['nama tamu'] || row['Nama'] || '';
-        const rawCategory = row['Kategori'] || row['kategori'] || 'Teman Kerja';
-        if (!rawName) return null;
-        const slug = rawName.toLowerCase().replace(/ /g, '-').replace(/[^\w-.,;()']+/g, '');
-        return { name: rawName, category: rawCategory, slug: slug, status: 'Belum Hadir' };
-      }).filter(item => item !== null);
+      const formattedData = jsonData
+        .map((row) => {
+          const rawName =
+            row["Nama Tamu"] || row["nama tamu"] || row["Nama"] || "";
+          const rawCategory =
+            row["Kategori"] || row["kategori"] || "Teman Kerja";
+          if (!rawName) return null;
+          const slug = rawName
+            .toLowerCase()
+            .replace(/ /g, "-")
+            .replace(/[^\w-.,;()']+/g, "");
+          return {
+            name: rawName,
+            category: rawCategory,
+            slug: slug,
+            status: "Belum Hadir",
+          };
+        })
+        .filter((item) => item !== null);
 
       if (formattedData.length === 0) {
-        alert("File kosong/salah format!"); isLoading.value = false; return;
+        alert("File kosong/salah format!");
+        isLoading.value = false;
+        return;
       }
 
       const { error } = await supabase
-        .from('guests')
-        .upsert(formattedData, { onConflict: 'slug', ignoreDuplicates: true });
+        .from("guests")
+        .upsert(formattedData, { onConflict: "slug", ignoreDuplicates: true });
 
       if (error) {
-        console.error(error); alert("Gagal Import! Cek konsol.");
+        console.error(error);
+        alert("Gagal Import! Cek konsol.");
       } else {
-        alert(`Berhasil import ${formattedData.length} tamu!`); fetchGuests();
+        alert(`Berhasil import ${formattedData.length} tamu!`);
+        fetchGuests();
       }
-      
-    } catch (err) { console.error(err); alert("Gagal baca file."); } 
-    finally { isLoading.value = false; event.target.value = ''; }
+    } catch (err) {
+      console.error(err);
+      alert("Gagal baca file.");
+    } finally {
+      isLoading.value = false;
+      event.target.value = "";
+    }
   };
   reader.readAsArrayBuffer(file);
 };
 
 // --- HELPER ---
 const slugToNiceName = (slug) => {
-  if (!slug) return '';
-  return slug.replace(/-/g, '+').replace(/\b\w/g, l => l.toUpperCase());
-}
+  if (!slug) return "";
+  return slug.replace(/-/g, "+").replace(/\b\w/g, (l) => l.toUpperCase());
+};
 
 const copyLink = (slug) => {
   const fullUrl = `${window.location.origin}/#/?to=${slugToNiceName(slug)}`;
@@ -163,13 +215,17 @@ const copyLink = (slug) => {
 
 const openQrCode = (guest) => {
   qrName.value = guest.name;
-  qrValue.value = `${window.location.origin}/#/?to=${slugToNiceName(guest.slug)}`;
+  qrValue.value = `${window.location.origin}/#/?to=${slugToNiceName(
+    guest.slug
+  )}`;
   showQrModal.value = true;
 };
 
 // --- SHARE WA LOGIC (NEW: Update Database) ---
 const shareToWa = async (guest) => {
-  const fullUrl = `${window.location.origin}/#/?to=${slugToNiceName(guest.slug)}`;
+  const fullUrl = `${window.location.origin}/#/?to=${slugToNiceName(
+    guest.slug
+  )}`;
   const groom = weddingData?.groom?.nickName || "Pria";
   const bride = weddingData?.bride?.nickName || "Wanita";
   const coupleName = `${groom} & ${bride}`;
@@ -194,20 +250,22 @@ Mohon maaf perihal undangan hanya di bagikan melalui pesan ini. Terima kasih ban
 Wassalamu'alaikum Wr. Wb.
 Terima Kasih.`;
 
-  window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+  window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank");
 
   // Update Status Kirim ke Supabase
   const { error } = await supabase
-    .from('guests')
+    .from("guests")
     .update({ invitation_sent: true })
-    .eq('id', guest.id);
+    .eq("id", guest.id);
 
   if (!error) {
-    guest.invitation_sent = true; 
+    guest.invitation_sent = true;
   }
 };
 
-const goToScanner = () => { router.push('/scan'); };
+const goToScanner = () => {
+  router.push("/scan");
+};
 </script>
 
 <template>
@@ -373,15 +431,20 @@ const goToScanner = () => { router.push('/scan'); };
                 </td>
                 <td class="p-4 text-center">
                   <div class="flex justify-center gap-2 flex-wrap">
-                    @click="shareToWa(guest)" :disabled="guest.invitation_sent"
-                    class="px-3 py-1 rounded text-sm flex items-center gap-1
-                    transition shadow-sm border" :class="guest.invitation_sent ?
-                    'bg-gray-100 text-gray-400 border-gray-200
-                    cursor-not-allowed' /* Style kalau SUDAH dikirim */ :
-                    'bg-green-500 hover:bg-green-600 text-white
-                    border-green-500'" /* Style kalau BELUM dikirim */
-                    title="Kirim WA" >
-                    <span v-if="guest.invitation_sent">✅ Terkirim</span>
+                    <button
+                      @click="shareToWa(guest)"
+                      :disabled="guest.invitation_sent"
+                      class="px-3 py-1 rounded text-sm flex items-center gap-1 transition shadow-sm border"
+                      :class="
+                        guest.invitation_sent
+                          ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
+                          : 'bg-green-500 hover:bg-green-600 text-white border-green-500'
+                      "
+                      title="Kirim WA"
+                    >
+                      <span v-if="guest.invitation_sent">✅ Terkirim</span>
+                      <span v-else>📲 WA</span>
+                    </button>
                     <button
                       @click="copyLink(guest.slug)"
                       class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-1 rounded text-sm border transition"
