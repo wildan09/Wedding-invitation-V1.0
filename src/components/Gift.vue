@@ -6,16 +6,16 @@
       {
         id: 1,
         bankName: 'BCA',
-        accountNumber: '1234567890', // Ganti No. Rek
-        holderName: 'WILDAN NAMA LENGKAP',
+        accountNumber: '8945179259', // Ganti No. Rek
+        holderName: 'MUHAMMAD WILDAN VICKI FAHMI AKBAR',
         logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/1200px-Bank_Central_Asia.svg.png'
       },
       {
         id: 2,
         bankName: 'BRI',
-        accountNumber: '09876543210', // Ganti No. Rek
-        holderName: 'DEVA NAMA LENGKAP',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/BANK_BRI_logo.svg/1280px-BANK_BRI_logo.svg.png'
+        accountNumber: '1440017892974', // Ganti No. Rek
+        holderName: 'DEVA PUTRI DYANA',
+        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/BANK_BRI_logo.svg/1280px-BANK_MANDIRI_logo.svg.png'
       }
     ];
     

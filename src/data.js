@@ -3,7 +3,7 @@
 export const weddingData = {
   // --- Data Mempelai ---
   groom: {
-    nickName: "wildan", // Nama Panggilan
+    nickName: "Wildan", // Nama Panggilan
     fullName: "Muhammad Wildan Vicki Fahmi akbar, S.Kom., M.M", // Nama Lengkap
     father: "Alm.H.Moh Yusuf",
     mother: "Ibu Siti Fatimah",
@@ -14,19 +14,19 @@ export const weddingData = {
     fullName: "Deva Putri Dyana",
     father: "Bpk. Muhammad Daud",
     mother: "Ibu Dewi Santi",
-    instagram: "@devaptr"
+    instagram: "@devaptrdyn"
   },
 
   // --- Data Acara ---
   akad :{
     date: "Jumat, 05 juni 2026", 
     time: "08.00 WIB - Selesai",
-    location: "kediaman Mempelai Wanita",
+    location: "Dsn.Sukoanyar RT:022/RW:006, Ds.Bakalan, Kec.Purwosari, Kab.Pasuruan",
   },
   resepsi : {
     date: "Jumat, 05 Juni 2026", 
     time: "13.00 WIB - Selesai",
-    location: "Kediaman mempelai Wanita",
+    location: "Dsn.Sukoanyar RT:022/RW:006, Ds.Bakalan, Kec.Purwosari, Kab.Pasuruan",
   },
 
   

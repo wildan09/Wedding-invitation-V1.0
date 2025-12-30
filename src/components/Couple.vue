@@ -38,7 +38,7 @@ import { weddingData } from '@/data';
             <h3 class="font-heading text-3xl text-gold mb-2">{{ weddingData.groom.nickName }}</h3>
             <p class="font-body text-white font-medium mb-1">{{ weddingData.groom.fullName }}</p>
             <p class="text-gray-400 text-sm mb-4">
-              {{ weddingData.groom.father }}<br>& {{ weddingData.groom.mother }}
+              Putra pertama dari <br>{{ weddingData.groom.father }}<br>& Putri pertama dari <br>{{ weddingData.groom.mother }}
             </p>
             
             <a href="#" class="inline-flex items-center gap-2 text-xs text-gold border border-gold/50 px-4 py-1 rounded-full hover:bg-gold hover:text-dark transition">
