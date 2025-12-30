@@ -25,7 +25,7 @@ export const weddingData = {
   },
   resepsi : {
     date: "Jumat, 05 Juni 2026", 
-    time: "13.00 WIB - Selesai",
+    time: "Bebas",
     location: "Dsn.Sukoanyar RT:022/RW:006, Ds.Bakalan, Kec.Purwosari, Kab.Pasuruan",
   },
 
