@@ -35,8 +35,8 @@ const bride = weddingData?.bride || defaultBride;
                 </div>
                 <div class="couple-anim relative z-40"> 
                     <h3 class="font-tempting text-4xl text-green font-bold mb-2 mt-2">{{ groom.nickName }}</h3>
-                    <h3 class="font-alcantera text-xl text-marron mb-2">{{ groom.fullName }}</h3>
-                    <p class="font-trajan text-sm text-[#284f20]">Putra dari {{ groom.father }} <br> & <br>{{ groom.mother }}</p>
+                    <h3 class="font-alcantera text-xl text-marron mb-2 font-bold">{{ groom.fullName }}</h3>
+                    <p class="font-trajan text-sm text-[#284f20] font-bold">Putra dari {{ groom.father }} <br> & <br>{{ groom.mother }}</p>
                 </div>
             </div>
 
@@ -52,8 +52,8 @@ const bride = weddingData?.bride || defaultBride;
                 </div>
                 <div class="couple-anim relative z-40 mb-35">
                     <h3 class="font-tempting text-4xl text-green font-bold mb-2 mt-2">{{ bride.nickName }}</h3>
-                    <h3 class="font-alcantera text-xl text-marron mb-2">{{ bride.fullName }}</h3>
-                    <p class="font-trajan text-sm text-[#284f20]">Putra dari {{ bride.father }} <br> & <br>{{ bride.mother }}</p>
+                    <h3 class="font-alcantera text-xl text-marron mb-2 font-bold">{{ bride.fullName }}</h3>
+                    <p class="font-trajan text-sm text-[#284f20] font-bold">Putri dari {{ bride.father }} <br> & <br>{{ bride.mother }}</p>
                 </div>
             </div>
 
