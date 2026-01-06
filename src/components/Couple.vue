@@ -30,7 +30,7 @@ const bride = weddingData?.bride || defaultBride;
             <div class="flex flex-col items-center group">
                 <div class="couple-anim relative w-[280px] h-[350px] mb-6 flex justify-center items-center">
                     <div class="relative w-full h-full overflow-hidden rounded-full border-[3px] border-[#D4AF37]/60 shadow-2xl z-20">
-                        <img src="../../images/deva.jpg" class="w-full h-full object-cover" alt="Pria">
+                        <img src="/images/deva.jpg" class="w-full h-full object-cover" alt="Pria">
                     </div>
                 </div>
                 <div class="couple-anim relative z-40"> 
@@ -47,7 +47,7 @@ const bride = weddingData?.bride || defaultBride;
             <div class="flex flex-col items-center group">
                 <div class="couple-anim relative w-[280px] h-[350px] mb-6 flex justify-center items-center">
                     <div class="relative w-full h-full overflow-hidden rounded-full border-[3px] border-[#D4AF37]/60 shadow-2xl z-20">
-                         <img src="../../images/wildan.jpg" class="w-full h-full object-cover" alt="Wanita">
+                         <img src="/images/wildan.jpg" class="w-full h-full object-cover" alt="Wanita">
                     </div>
                 </div>
                 <div class="couple-anim relative z-40 mb-35">
