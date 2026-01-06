@@ -105,7 +105,7 @@ onMounted(async () => {
         <div class="relative w-[85%] h-[60%] md:w-[60%] md:h-[70%] shadow-2xl overflow-hidden"
              style="mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%); 
                     -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);">
-            <img src="../../images/BACKGROUND6-GREEN-PII-e1761201319990.jpg" class="w-full h-full object-cover" alt="Gazebo">
+            <img src="/images/BACKGROUND6-GREEN-PII-e1761201319990.jpg" class="w-full h-full object-cover" alt="Gazebo">
         </div>
     </div>
 
