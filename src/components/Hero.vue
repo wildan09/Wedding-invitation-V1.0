@@ -138,7 +138,7 @@ onMounted(async () => {
             
             <div class="w-24 h-1 bg-gold mx-auto mb-6 rounded-full shadow-lg"></div>
 
-            <p class="font-trajan text-green text-xs md:text-base uppercase tracking-[0.3em] font-bold">
+            <p class="font-trajan text-green text-sm md:text-base uppercase tracking-[0.3em] font-bold">
                 {{ weddingData.akad.date1}}
             </p>
            <a href="https://calendar.app.google/apk9os4SF7K3BQLB6" 

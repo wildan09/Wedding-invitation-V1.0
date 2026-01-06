@@ -19,7 +19,7 @@ export const weddingData = {
 
   // --- Data Acara ---
   akad :{
-    date: "Jumat, 05 juni 2026", 
+    date: "Jumat, 05 Juni 2026", 
     date1: "05 juni 2026",
     dateIso: "2026-06-05T07:00:00",
     time: "08.00 WIB - Selesai",
