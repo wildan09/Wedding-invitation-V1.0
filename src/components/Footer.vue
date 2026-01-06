@@ -1,40 +1,58 @@
 <script setup>
-import { weddingData } from '@/utilities/data';
+// Logic tombol kembali ke atas (opsional jika ingin dipakai)
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+</script>
 
-  // Footer Statis
-  </script>
-  
-  <template>
-    <footer class="py-12 bg-black text-center relative overflow-hidden">
+<template>
+  <footer class="relative py-24 overflow-hidden font-serif">
+    
+    <div class="absolute inset-0 z-0"> <img 
+        src="/images/BACKGROUND6-GREEN-PII-e1761201319990.jpg" 
+        alt="Background Pattern" 
+        class="w-full h-full object-cover mix-blend-multiply"
+      />
+    </div>
+ <div class="absolute inset-0 bg-[#1a2e25]/40"></div>
+    <div class="container mx-auto px-6 relative z-10 max-w-[400px]" data-aos="fade-up" data-aos-duration="1200">
       
-      <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_bottom,_var(--color-gold),_transparent_70%)]"></div>
-  
-      <div class="container mx-auto px-6 relative z-10">
-        
-        <p class="text-gray-400 mb-6 text-sm italic" data-aos="fade-up">
-          "Merupakan suatu kehormatan dan kebahagiaan bagi kami <br>
-          apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu."
-        </p>
-  
-        <h3 class="font-heading text-2xl text-white mb-8" data-aos="fade-up" data-aos-delay="100">
-          Wassalamu'alaikum Warahmatullahi Wabarakatuh
-        </h3>
-  
-        <h2 
-          class="font-heading text-5xl md:text-6xl text-gold mb-12"
-          data-aos="zoom-in"
-          data-aos-delay="200"
-        >
-          {{weddingData.groom.nickName}} & {{ weddingData.bride.nickName }}
-        </h2>
-  
-        <hr class="border-gray-800 w-1/2 mx-auto mb-8">
-  
-        <div class="text-gray-500 text-xs">
-          <p class="mb-2">Created with <span class="text-red-500 animate-pulse">❤</span> by <span class="text-gold font-bold">Calon Suami (Wildan)</span></p>
-          <p>&copy; 2026 The Wedding of Wildan & Deva. All Rights Reserved.</p>
+      <div class="relative z-20 mx-auto w-full group">
+        <div class="bg-[#f4f1ea] p-[5px] rounded-t-[160px] shadow-2xl transition-transform duration-700 hover:scale-[1.02]">
+          
+          <img 
+            src="/images/BCK_2610.JPG" 
+            alt="Mempelai" 
+            class="w-full h-[420px] object-cover rounded-t-[155px] p-2"
+          />
         </div>
-  
       </div>
-    </footer>
-  </template>
+
+      <div class="relative z-10 bg-[#f4f1ea] -mt-20 pt-24 pb-12 px-8 text-center rounded-b-[50px] shadow-2xl overflow-hidden border-t-0">
+        
+        <div class="absolute inset-0 opacity-10 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]"></div>
+
+        <p class="relative z-20 text-[#3a3a3a] text-sm font-medium tracking-wide font-serif mb-6">
+         Merupakan suatu kehormatan dan kebahagiaan bagi kami, apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu. Atas kehadiran dan doa restunya, kami mengucapkan terima kasih.
+        </p>
+
+        <div class="w-12 h-[2px] bg-[#8B735B] mx-auto mb-6 opacity-50"></div>
+
+        <h3 class="font-alcantera text-[#8B735B] text-xl font-bold">
+          Wildan & Deva
+        </h3>
+
+      </div>
+
+    </div>
+      <p class="text-alcantera relative z-10 text-center  text-white text-sm tracking-widest mt-10">Created with ❤️ by Calon Suami (Wildan)</p>
+
+  </footer>
+</template>
+
+<style scoped>
+/* Pastikan font Serif aktif */
+.font-serif {
+  font-family: 'Times New Roman', Times, serif; 
+}
+</style>

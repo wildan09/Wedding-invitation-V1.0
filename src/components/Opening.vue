@@ -30,28 +30,21 @@ const openInvitation = () => {
 
 <template>
   <div 
-    class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black transition-transform duration-1000 ease-in-out"
+    class="fixedw-full h-full relative inset-0 z-50 flex flex-col items-center justify-end pb-20 bg-black transition-transform duration-1000 ease-in-out"
     :class="{ '-translate-y-full': isHiding }"
   >
-    <div class="absolute inset-0 bg-[url('../../public/images/VINT01-MOTION-FALLBACK-PII-1.jpg')] bg-cover bg-center opacity-40"></div>
+    <div class="absolute inset-0 bg-[url('../../public/images/BCK_2629.JPG')] bg-cover bg-center opacity-40"></div>
     
     <div class="relative z-10 text-center px-4">
       <p class="font-body tracking-[0.3em] text-gray-300 mb-4 text-sm animate-pulse">THE WEDDING OF</p>
       
-      <h1 class="font-heading text-5xl md:text-6xl text-gold leading-tight drop-shadow-sm mt-4 mb-4">
-          {{ weddingData.groom.nickName }}<br> 
-          <span class="font-script text-4xl text-[#8B7355]">&</span> 
-          <br> {{ weddingData.bride.nickName }}
+      <h1 class="font-alcantera text-5xl md:text-5xl text-gold leading-tight drop-shadow-sm mt-4 mb-4">
+          {{ weddingData.groom.nickName }} &
+          <!-- <!-- <span class="font-script text-4xl text-[#8B7355]">&</span>  -->
+           {{ weddingData.bride.nickName }}
       </h1>
 
-      <div class="animate-float">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="1" class="mx-auto mb-6 opacity-80">
-          <path d="M12 22c4.97 0 9-4.03 9-9-4.97 0-9 4.03-9 9z"></path>
-          <path d="M12 22c-4.97 0-9-4.03-9-9 4.97 0 9 4.03 9 9z"></path>
-          <path d="M12 2c4.97 0 9 4.03 9 9-4.97 0-9-4.03-9-9z"></path>
-          <path d="M12 2c-4.97 0-9 4.03-9 9 4.97 0 9-4.03 9 9z"></path>
-        </svg>
-      </div>
+    
 
       <p class="font-body text-gray-300 mb-2 text-sm">
         Kepada Yth.<br>

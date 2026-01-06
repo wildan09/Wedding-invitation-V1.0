@@ -5,6 +5,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 // Tanda titik dua (..) artinya: Keluar dari folder router, lalu masuk ke folder views
 import Invitation from '../views/Invitation.vue'
 import Dashboard from '../views/Dashboard.vue'
+import QrScanner from '../components/QrScanner.vue'
 
 const routes = [
   {
@@ -16,6 +17,11 @@ const routes = [
     path: '/admin',
     name: 'Dashboard',
     component: Dashboard
+  },
+  {
+    path : '/scan',
+    name: 'Scan',
+    component: QrScanner
   }
 ]
 

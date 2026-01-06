@@ -1,86 +1,76 @@
 @import "tailwindcss";
 
-/* =========================================
-   1. PENDAFTARAN FONT LOKAL
-   ========================================= */
+/* 1. SETUP FONT LOKAL (Ganti Google Fonts) */
+/* Pastikan nama file .woff2 di folder public/fonts/ SAMA PERSIS dengan di sini */
 
-/* Font Sambung Utama (Aston Script) */
+/* Font Sambung (Pengganti Pinyon Script) */
 @font-face {
-  font-family: 'AstonScript';
-  src: url('/fonts/2512Aston-Script.woff2') format('woff2');
+  font-family: 'AstonScript'; /* Nama panggilan */
+  src: url('/fonts/2512Aston-Script.woff2') format('woff2'); /* Sesuaikan nama file Bapak */
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
-/* Font Judul Gagah (Trajan) */
+/* Font Tegas/Jawa (Pengganti Playfair Display) */
 @font-face {
-  font-family: 'trajan';
-  src: url('/fonts/3113trajan.woff2') format('woff2');
+  font-family: 'trajan'; /* Nama panggilan */
+  src: url('/fonts/3113trajan.woff2') format('woff2'); /* Sesuaikan nama file Bapak */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AlcanteraSerif'; /* Nama panggilan */
+  src: url('/fonts/8377Alcantera-Serif.woff2') format('woff2'); /* Sesuaikan nama file Bapak */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Tempting'; /* Nama panggilan */
+  src: url('/fonts/5599Tempting.woff2') format('woff2'); /* Sesuaikan nama file Bapak */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SnellBT'; /* Nama panggilan */
+  src: url('/fonts/6594SnellBT.woff2') format('woff2'); /* Sesuaikan nama file Bapak */
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
-/* Font Serif Elegan (Alcantera) */
-@font-face {
-  font-family: 'AlcanteraSerif';
-  src: url('/fonts/8377Alcantera-Serif.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Font Sambung Alternatif 1 (Tempting) */
-@font-face {
-  font-family: 'Tempting';
-  src: url('/fonts/5599Tempting.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Font Sambung Alternatif 2 (SnellBT - Classic) */
-@font-face {
-  font-family: 'SnellBT';
-  src: url('/fonts/6594SnellBT.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* =========================================
-   2. KONFIGURASI TEMA (MAPPING FONT)
-   ========================================= */
+/* 2. KONFIGURASI TEMA (GANTINYA tailwind.config.js) */
 @theme {
-  /* --- PALET WARNA --- */
+  /* A. COLORS */
+  /* Di v4, variabel ini otomatis jadi class: bg-gold, text-bronze, border-dark */
   --color-gold: #D4AF37;
+  --color-marron: #8c2b2d;
   --color-bronze: #8B7355; 
   --color-coffee: #5A4635; 
   --color-cream: #FFFBF2;  
-  
   --color-dark: #0f0f0f;
   --color-dark-surface: #1a1a1a;
+  --color-green: #2c574d;
 
-  /* --- MAPPING FONT (BAGIAN INI YANG PENTING) --- */
+  /* B. FONTS */
+  /* Di v4, variabel ini otomatis jadi class: font-trajan, font-aston, font-script */
   
-  /* 1. JUDUL UTAMA (The Wedding of / Tanggal) -> Pakai TRAJAN (Gagah) */
-  --font-heading: 'trajan', serif;
+  /* Panggil nama font sesuai 'font-family' di atas */
+  --font-trajan: 'trajan', serif;
+  --font-alcantera: 'AlcanteraSerif', serif;
+  --font-aston: 'AstonScript', cursive;
+  --font-snell: 'SnellBT', cursive;
+  --font-tempting: 'Tempting', cursive;
 
-  /* 2. SUB-JUDUL (Keterangan/Ayat) -> Pakai ALCANTERA (Elegan) */
-  --font-subheading: 'AlcanteraSerif', serif;
-
-  /* 3. NAMA PENGANTIN (Wildan & Deva) -> Pakai ASTON SCRIPT (Indah) */
-  /* Opsi lain: ganti 'AstonScript' dengan 'Tempting' atau 'SnellBT' jika mau */
-  --font-script: 'AstonScript', cursive;
-  
-  /* 4. BODY TEXT (Paragraf panjang) -> Pakai System Font (Biar terbaca jelas di HP) */
-  --font-body: ui-sans-serif, system-ui, sans-serif;             
+  /* Alias / Semantic Names (Opsional) */
+  --font-heading: 'trajan', serif;      
+  --font-script: 'AstonScript', cursive; 
 }
 
-/* =========================================
-   3. GLOBAL STYLES
-   ========================================= */
+/* 3. GLOBAL STYLES */
 html {
   scroll-behavior: smooth;
 }
@@ -94,21 +84,16 @@ body {
   min-height: 100vh;
 }
 
-/* Utility Classes Helper */
+/* Utility Classes */
 .font-script {
   font-family: var(--font-script);
 }
 
 .font-heading {
   font-family: var(--font-heading);
-  letter-spacing: 0.05em; /* Trajan lebih bagus kalau agak renggang dikit */
 }
 
-.font-subheading {
-  font-family: var(--font-subheading);
-}
-
-/* Animasi Float */
+/* Animasi Float (Bawaan) */
 @keyframes float {
   0% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }

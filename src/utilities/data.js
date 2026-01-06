@@ -5,7 +5,7 @@ export const weddingData = {
   groom: {
     nickName: "Wildan", // Nama Panggilan
     fullName: "Muhammad Wildan Vicki Fahmi akbar, S.Kom., M.M", // Nama Lengkap
-    father: "Alm.H.Moh Yusuf",
+    father: "Alm. Bpk H.Moh Yusuf",
     mother: "Ibu Siti Fatimah, S.Pd",
     instagram : "@wildanvfa"
   },
@@ -20,6 +20,8 @@ export const weddingData = {
   // --- Data Acara ---
   akad :{
     date: "Jumat, 05 juni 2026", 
+    date1: "05 juni 2026",
+    dateIso: "2026-06-05T07:00:00",
     time: "08.00 WIB - Selesai",
     location: "Dsn.Sukoanyar RT:022/RW:006, Ds.Bakalan, Kec.Purwosari, Kab.Pasuruan",
   },
@@ -28,10 +30,17 @@ export const weddingData = {
     time: "Bebas",
     location: "Dsn.Sukoanyar RT:022/RW:006, Ds.Bakalan, Kec.Purwosari, Kab.Pasuruan",
   },
+  gift: {
+     banks: [
+       { name: "BCA", number: "1234567890", holder: "Muhammad Wildan vicki Fahmi Akbar" },
+       { name: "MANDIRI", number: "0987654321", holder: "Deva Putri Dyana" }
+     ],
+     address: "Alamat rumah untuk kirim kado..."
+  },
 
   
   // --- Link ---
-  mapLink: "https://goo.gl/maps/...", // Link Google Maps
+  mapLink: "https://maps.app.goo.gl/Qp7aTCHwhomPbAey6", // Link Google Maps
   calendarLink: "https://calendar.google.com/...", // Link Add to Calendar
   
   // --- Pesan ---

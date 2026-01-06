@@ -1,99 +1,93 @@
 <script setup>
-    import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { weddingData } from '../utilities/data'; 
+// TIDAK ADA IMPORT GSAP DISINI!
+
+const timer = ref({ days: '00', hours: '00', minutes: '00', seconds: '00' });
+let interval = null;
+const targetDateStr = weddingData?.akad?.dateIso || "2025-12-30T08:00:00"; 
+const targetDate = new Date(targetDateStr).getTime();
+
+const updateTimer = () => {
+  const now = new Date().getTime();
+  const distance = targetDate - now;
+  if (distance < 0) {
+    clearInterval(interval);
+    timer.value = { days: '00', hours: '00', minutes: '00', seconds: '00' };
+    return;
+  }
+  const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+  timer.value.days = d < 10 ? `0${d}` : d;
+  timer.value.hours = h < 10 ? `0${h}` : h;
+  timer.value.minutes = m < 10 ? `0${m}` : m;
+  timer.value.seconds = s < 10 ? `0${s}` : s;
+};
+
+onMounted(() => {
+  updateTimer();
+  interval = setInterval(updateTimer, 1000);
+});
+
+onUnmounted(() => {
+  if (interval) clearInterval(interval);
+});
+</script>
+
+<template>
+  <section class="custom-anim relative w-full h-screen overflow-hidden flex flex-col justify-end pb-32 md:pb-40 text-white">
     
-    // 1. SET TANGGAL ACARA DISINI (Format: YYYY-MM-DDTHH:mm:ss)
-    // Contoh: 5 Juni 2026, jam 08:00 pagi
-    const targetDate = new Date('2026-06-05T08:00:00').getTime();
-    
-    // State untuk angka-angka
-    const days = ref(0);
-    const hours = ref(0);
-    const minutes = ref(0);
-    const seconds = ref(0);
-    let timerInterval = null;
-    
-    // Fungsi Hitung Mundur
-    const updateTimer = () => {
-      const now = new Date().getTime();
-      const distance = targetDate - now;
-    
-      if (distance < 0) {
-        // Kalau waktu sudah lewat
-        clearInterval(timerInterval);
-        return;
-      }
-    
-      // Rumus Matematika Waktu
-      days.value = Math.floor(distance / (1000 * 60 * 60 * 24));
-      hours.value = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      minutes.value = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      seconds.value = Math.floor((distance % (1000 * 60)) / 1000);
-    };
-    
-    // Pasang Timer saat komponen muncul
-    onMounted(() => {
-      updateTimer();
-      timerInterval = setInterval(updateTimer, 1000); // Update tiap 1 detik
-    });
-    
-    // Bersihkan Timer saat komponen hilang (biar memori aman)
-    onUnmounted(() => {
-      if (timerInterval) clearInterval(timerInterval);
-    });
-    </script>
-    
-    <template>
-      <section class="py-20 bg-dark text-white relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-32 h-32 bg-gold opacity-10 blur-[80px] rounded-full"></div>
-        <div class="absolute bottom-0 right-0 w-32 h-32 bg-gold opacity-10 blur-[80px] rounded-full"></div>
-    
-        <div class="container mx-auto px-6 text-center relative z-10">
-          
-          <h2 
-            class="font-heading text-3xl md:text-4xl text-gold mb-12" 
-            data-aos="fade-up"
-          >
-            Menuju Hari Bahagia
-          </h2>
-    
-          <div 
-            class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto"
-            data-aos="zoom-in"
-            data-aos-delay="200"
-          >
-            <div class="p-6 bg-dark-surface border border-gray-800 rounded-xl shadow-lg hover:border-gold/50 transition duration-500 group">
-              <p class="font-heading text-5xl md:text-6xl text-gold mb-2 group-hover:scale-110 transition duration-300">
-                {{ days }}
-              </p>
-              <p class="text-xs tracking-[0.2em] uppercase text-gray-400">Hari</p>
+    <div class="absolute inset-0 z-0">
+        <img src="../../images/BCK_2626.JPG" class="w-full h-full object-cover" alt="Background Countdown">
+        <div class="absolute inset-0 bg-black/20"></div>
+        <div class="absolute bottom-0 w-full h-[80%] bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
+    </div>
+
+    <div class="relative z-10 container mx-auto px-6 text-center">
+        
+        <div class="cnt-anim opacity-0 translate-y-10">
+            <div class="mb-6 flex justify-center opacity-70">
+                <svg width="40" height="20" viewBox="0 0 40 20" fill="none" stroke="#D4AF37" stroke-width="1"><path d="M0 10 Q10 0 20 10 Q30 20 40 10" /></svg>
             </div>
-    
-            <div class="p-6 bg-dark-surface border border-gray-800 rounded-xl shadow-lg hover:border-gold/50 transition duration-500 group">
-              <p class="font-heading text-5xl md:text-6xl text-gold mb-2 group-hover:scale-110 transition duration-300">
-                {{ hours }}
-              </p>
-              <p class="text-xs tracking-[0.2em] uppercase text-gray-400">Jam</p>
-            </div>
-    
-            <div class="p-6 bg-dark-surface border border-gray-800 rounded-xl shadow-lg hover:border-gold/50 transition duration-500 group">
-              <p class="font-heading text-5xl md:text-6xl text-gold mb-2 group-hover:scale-110 transition duration-300">
-                {{ minutes }}
-              </p>
-              <p class="text-xs tracking-[0.2em] uppercase text-gray-400">Menit</p>
-            </div>
-    
-            <div class="p-6 bg-dark-surface border border-gray-800 rounded-xl shadow-lg hover:border-gold/50 transition duration-500 group">
-              <p class="font-heading text-5xl md:text-6xl text-gold mb-2 group-hover:scale-110 transition duration-300">
-                {{ seconds }}
-              </p>
-              <p class="text-xs tracking-[0.2em] uppercase text-gray-400">Detik</p>
-            </div>
-          </div>
-    
-          <p class="mt-12 text-gray-400 italic font-body text-sm" data-aos="fade-up" data-aos-delay="400">
-            "Kami menantikan kehadiran Anda untuk berbagi kebahagiaan ini."
-          </p>
-    
+            <h2 class="font-aston text-3xl md:text-4xl text-[#D4AF37] mb-2 tracking-widest">Menuju Hari Bahagia</h2>
+            <p class="font-serif italic text-white/90 mb-10 text-sm md:text-base max-w-lg mx-auto drop-shadow-md">Kami menantikan kehadiran para keluarga dan sahabat untuk menjadi saksi ikatan janji suci kami.</p>
         </div>
-      </section>
-    </template>
+
+        <div class="flex flex-wrap justify-center gap-4 md:gap-8">
+            
+            <div class="cnt-anim opacity-0 scale-50 flex flex-col items-center">
+                <div class="w-16 h-16 md:w-20 md:h-20 border border-[#D4AF37]/50 rounded-xl flex items-center justify-center bg-black/30 backdrop-blur-md shadow-lg">
+                    <span class="font-trajan text-2xl md:text-3xl font-bold">{{ timer.days }}</span>
+                </div>
+                <span class="mt-2 text-xs md:text-sm tracking-[0.2em] uppercase text-[#D4AF37]">Hari</span>
+            </div>
+
+            <div class="cnt-anim opacity-0 scale-50 flex flex-col items-center">
+                <div class="w-16 h-16 md:w-20 md:h-20 border border-[#D4AF37]/50 rounded-xl flex items-center justify-center bg-black/30 backdrop-blur-md shadow-lg">
+                    <span class="font-trajan text-2xl md:text-3xl font-bold">{{ timer.hours }}</span>
+                </div>
+                <span class="mt-2 text-xs md:text-sm tracking-[0.2em] uppercase text-[#D4AF37]">Jam</span>
+            </div>
+
+            <div class="cnt-anim opacity-0 scale-50 flex flex-col items-center">
+                <div class="w-16 h-16 md:w-20 md:h-20 border border-[#D4AF37]/50 rounded-xl flex items-center justify-center bg-black/30 backdrop-blur-md shadow-lg">
+                    <span class="font-trajan text-2xl md:text-3xl font-bold">{{ timer.minutes }}</span>
+                </div>
+                <span class="mt-2 text-xs md:text-sm tracking-[0.2em] uppercase text-[#D4AF37]">Menit</span>
+            </div>
+
+            <div class="cnt-anim opacity-0 scale-50 flex flex-col items-center">
+                <div class="w-16 h-16 md:w-20 md:h-20 border border-[#D4AF37] rounded-xl flex items-center justify-center bg-[#D4AF37]/20 backdrop-blur-md shadow-[0_0_15px_rgba(212,175,55,0.3)] animate-pulse">
+                    <span class="font-trajan text-2xl md:text-3xl font-bold text-[#D4AF37]">{{ timer.seconds }}</span>
+                </div>
+                <span class="mt-2 text-xs md:text-sm tracking-[0.2em] uppercase text-[#D4AF37]">Detik</span>
+            </div>
+
+        </div>
+
+    </div>
+  </section>
+</template>
