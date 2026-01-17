@@ -36,10 +36,10 @@ export const weddingData = {
   },
   gift: {
      banks: [
-       { name: "BCA", number: "1234567890", holder: "Muhammad Wildan vicki Fahmi Akbar" },
+       { name: "BCA", number: "8945179259", holder: "Muhammad Wildan vicki Fahmi Akbar" },
        { name: "MANDIRI", number: "1440017892974", holder: "Deva Putri Dyana" }
      ],
-     address: "Alamat rumah untuk kirim kado..."
+     address: "Dsn.Sukoanyar RT:022/RW:006, Ds.Bakalan, Kec.Purwosari, Kab.Pasuruan"
   },
 
   
