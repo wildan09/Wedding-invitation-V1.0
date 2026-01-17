@@ -71,7 +71,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   if (sessionTimer) clearTimeout(sessionTimer);
 });
-
+9
 // --- CRUD DATA ---
 const guests = ref([]);
 const newName = ref("");
@@ -80,7 +80,8 @@ const isLoading = ref(false);
 const categories = [
   "Keluarga",
   "Teman Kerja",
-  "Teman Sekolah",
+  "SMK",
+  "Kuliah",
   "VIP",
   "Tetangga",
 ];
