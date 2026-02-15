@@ -134,7 +134,7 @@ onMounted(() => {
             </div>
             <div class="bg-red-900/40 border border-red-500/30 p-4 rounded-2xl text-center backdrop-blur-md">
               <span class="block text-3xl font-bold text-red-400 font-serif">{{ totalTidak }}</span>
-              <span class="text-[10px] text-red-200 uppercase tracking-wider font-bold">Absen</span>
+              <span class="text-[10px] text-red-200 uppercase tracking-wider font-bold">Tidak Hadir</span>
             </div>
             <div class="bg-gray-800/60 border border-gray-500/30 p-4 rounded-2xl text-center backdrop-blur-md">
               <span class="block text-3xl font-bold text-gray-300 font-serif">{{ totalRagu }}</span>
