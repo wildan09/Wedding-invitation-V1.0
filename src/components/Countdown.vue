@@ -56,7 +56,7 @@ onUnmounted(() => {
             <p class="font-serif italic text-white/90 mb-10 text-sm md:text-base max-w-lg mx-auto drop-shadow-md">Kami menantikan kehadiran para keluarga dan sahabat untuk menjadi saksi ikatan janji suci kami.</p>
         </div>
 
-        <div class="flex flex-wrap justify-center gap-4 md:gap-8">
+        <div class="flex flex-wrap md:flex-nowrap justify-center gap-4 md:gap-8">
             
             <div class="cnt-anim opacity-0 scale-50 flex flex-col items-center">
                 <div class="w-16 h-16 md:w-20 md:h-20 border border-[#D4AF37]/50 rounded-xl flex items-center justify-center bg-black/30 backdrop-blur-md shadow-lg">

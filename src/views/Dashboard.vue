@@ -94,7 +94,6 @@ const showQrModal = ref(false);
 const qrValue = ref("");
 const qrName = ref("");
 const fileInput = ref(null);
-const qrModalRef = ref(null);
 
 const fetchGuests = async () => {
   const { data, error } = await supabase
@@ -263,40 +262,6 @@ const openQrCode = (guest) => {
     guest.slug
   )}`;
   showQrModal.value = true;
-};
-
-const downloadQrCode = () => {
-  const canvas = qrModalRef.value?.querySelector("canvas");
-  if (!canvas) return alert("QR Code belum siap, coba lagi.");
-
-  // Buat canvas baru dengan padding & nama tamu
-  const padding = 24;
-  const labelHeight = 48;
-  const newCanvas = document.createElement("canvas");
-  newCanvas.width = canvas.width + padding * 2;
-  newCanvas.height = canvas.height + padding * 2 + labelHeight;
-
-  const ctx = newCanvas.getContext("2d");
-
-  // Background putih
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, newCanvas.width, newCanvas.height);
-
-  // Gambar QR
-  ctx.drawImage(canvas, padding, padding);
-
-  // Tulis nama tamu di bawah QR
-  ctx.fillStyle = "#1e293b";
-  ctx.font = "bold 18px Arial";
-  ctx.textAlign = "center";
-  ctx.fillText(qrName.value, newCanvas.width / 2, canvas.height + padding + labelHeight - 12);
-
-  // Download
-  const link = document.createElement("a");
-  const safeName = qrName.value.replace(/[^a-zA-Z0-9\s]/g, "").trim().replace(/\s+/g, "_") || "QRCode";
-  link.download = `QR_${safeName}.png`;
-  link.href = newCanvas.toDataURL("image/png");
-  link.click();
 };
 
 // --- SHARE WA LOGIC ---
@@ -659,7 +624,6 @@ const goToScanner = () => {
       @click="showQrModal = false"
     >
       <div
-        ref="qrModalRef"
         class="bg-white p-8 rounded-2xl max-w-sm w-full text-center shadow-2xl"
         @click.stop
       >
@@ -670,23 +634,15 @@ const goToScanner = () => {
         >
           <QrcodeVue :value="qrValue" :size="200" level="H" />
         </div>
-        <p class="text-xs text-gray-400 mb-4 break-all bg-gray-50 p-2 rounded">
+        <p class="text-xs text-gray-400 mb-6 break-all bg-gray-50 p-2 rounded">
           {{ qrValue }}
         </p>
-        <div class="flex gap-3">
-          <button
-            @click="downloadQrCode"
-            class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition"
-          >
-            📥 Download
-          </button>
-          <button
-            @click="showQrModal = false"
-            class="flex-1 bg-gray-800 hover:bg-gray-900 text-white py-3 rounded-lg font-bold transition"
-          >
-            Tutup
-          </button>
-        </div>
+        <button
+          @click="showQrModal = false"
+          class="bg-gray-800 text-white w-full py-3 rounded-lg font-bold"
+        >
+          Tutup
+        </button>
       </div>
     </div>
   </div>

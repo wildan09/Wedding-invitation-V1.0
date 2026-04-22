@@ -25,7 +25,7 @@ const bride = weddingData?.bride || defaultBride;
             </p>
         </div>
 
-        <div class="flex flex-col md:flex-row justify-center items-center gap-16 md:gap-10">
+        <div class="flex flex-col justify-center items-center gap-16 md:gap-10">
 
             <div class="flex flex-col items-center group">
                 <div class="couple-anim relative w-[280px] h-[350px] mb-6 flex justify-center items-center">
@@ -40,7 +40,7 @@ const bride = weddingData?.bride || defaultBride;
                 </div>
             </div>
 
-            <div class="couple-anim font-aston text-5xl text-[#D4AF37] md:mt-[-100px] z-40">
+            <div class="couple-anim font-aston text-5xl text-[#D4AF37] my-4 md:my-0 z-40">
                 &
             </div>
 

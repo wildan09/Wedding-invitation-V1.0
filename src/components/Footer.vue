@@ -6,9 +6,9 @@ const scrollToTop = () => {
 </script>
 
 <template>
-  <footer class="relative py-24 overflow-hidden font-serif">
+  <footer class="relative py-24 pb-40 overflow-hidden font-serif">
     
-    <div class="absolute inset-0 z-0"> <img 
+    <div class="absolute inset-0 z-0 " > <img 
         src="/images/BACKGROUND6-GREEN-PII-e1761201319990.jpg" 
         alt="Background Pattern" 
         class="w-full h-full object-cover mix-blend-multiply"
@@ -45,8 +45,11 @@ const scrollToTop = () => {
       </div>
 
     </div>
-      <p class="text-alcantera relative z-10 text-center  text-white text-sm tracking-widest mt-10">Created with ❤️ by Calon Suami (Wildan)</p>
-
+    <div class="absolute mt-100 bottom-0 left-0 w-full bg-[#3a6153] h-[80px] flex items-center justify-center z-20">
+      <p class="font-serif text-white text-xs md:text-sm tracking-widest">
+        Created with ❤️ by Calon Suami (Wildan)
+      </p>
+    </div>
   </footer>
 </template>
 

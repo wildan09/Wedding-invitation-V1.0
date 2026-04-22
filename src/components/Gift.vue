@@ -46,7 +46,7 @@ const copyToClipboard = async (text, index) => {
             </p>
         </div>
 
-        <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-16">
+        <div class="flex flex-col md:flex-col justify-center items-center gap-8 mb-16">
             
             <div v-for="(bank, index) in giftData.banks" :key="index" 
                  class="gift-anim relative w-full max-w-sm h-56 rounded-2xl p-6 transition-transform duration-300 hover:-translate-y-2 group">

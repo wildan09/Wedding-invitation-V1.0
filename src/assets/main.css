@@ -12,40 +12,38 @@
   font-display: swap;
 }
 
-/* Font Tegas/Jawa (Pengganti Playfair Display) */
 @font-face {
-  font-family: 'trajan'; /* Nama panggilan */
-  src: url('/fonts/3113trajan.woff2') format('woff2'); /* Sesuaikan nama file Bapak */
+  font-family: 'trajan'; 
+  src: url('/fonts/3113trajan.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'AlcanteraSerif'; /* Nama panggilan */
-  src: url('/fonts/8377Alcantera-Serif.woff2') format('woff2'); /* Sesuaikan nama file Bapak */
+  font-family: 'AlcanteraSerif'; 
+  src: url('/fonts/8377Alcantera-Serif.woff2') format('woff2'); 
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Tempting'; /* Nama panggilan */
-  src: url('/fonts/5599Tempting.woff2') format('woff2'); /* Sesuaikan nama file Bapak */
+  font-family: 'Tempting'; 
+  src: url('/fonts/5599Tempting.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'SnellBT'; /* Nama panggilan */
-  src: url('/fonts/6594SnellBT.woff2') format('woff2'); /* Sesuaikan nama file Bapak */
+  font-family: 'SnellBT'; 
+  src: url('/fonts/6594SnellBT.woff2') format('woff2'); 
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
-/* 2. KONFIGURASI TEMA (GANTINYA tailwind.config.js) */
+
 @theme {
-  /* A. COLORS */
-  /* Di v4, variabel ini otomatis jadi class: bg-gold, text-bronze, border-dark */
+
   --color-gold: #D4AF37;
   --color-marron: #8c2b2d;
   --color-bronze: #8B7355; 
@@ -55,22 +53,17 @@
   --color-dark-surface: #1a1a1a;
   --color-green: #2c574d;
 
-  /* B. FONTS */
-  /* Di v4, variabel ini otomatis jadi class: font-trajan, font-aston, font-script */
-  
-  /* Panggil nama font sesuai 'font-family' di atas */
+
   --font-trajan: 'trajan', serif;
   --font-alcantera: 'AlcanteraSerif', serif;
   --font-aston: 'AstonScript', cursive;
   --font-snell: 'SnellBT', cursive;
   --font-tempting: 'Tempting', cursive;
 
-  /* Alias / Semantic Names (Opsional) */
   --font-heading: 'trajan', serif;      
   --font-script: 'AstonScript', cursive; 
 }
 
-/* 3. GLOBAL STYLES */
 html {
   scroll-behavior: smooth;
 }

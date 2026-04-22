@@ -83,7 +83,7 @@ onMounted(() => {
         </p>
       </div>
 
-      <div class="grid lg:grid-cols-12 gap-10 items-start">
+      <div class="flex flex-col gap-10 max-w-3xl mx-auto w-full">
         
         <div class="lg:col-span-5 lg:sticky lg:top-10" data-aos="fade-right">
           <div class="bg-black/40 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden">
@@ -129,15 +129,15 @@ onMounted(() => {
           
           <div class="grid grid-cols-3 gap-3 mb-6">
             <div class="bg-green-900/40 border border-green-500/30 p-4 rounded-2xl text-center backdrop-blur-md">
-              <span class="block text-3xl font-bold text-green-400 font-serif">{{ totalHadir }}</span>
+              <span class="block text-3xl font-bold text-green-400 font-alcantera">{{ totalHadir }}</span>
               <span class="text-[10px] text-green-200 uppercase tracking-wider font-bold">Hadir</span>
             </div>
             <div class="bg-red-900/40 border border-red-500/30 p-4 rounded-2xl text-center backdrop-blur-md">
-              <span class="block text-3xl font-bold text-red-400 font-serif">{{ totalTidak }}</span>
-              <span class="text-[10px] text-red-200 uppercase tracking-wider font-bold">Tidak Hadir</span>
+              <span class="block text-3xl font-bold text-red-400 font-alcantera">{{ totalTidak }}</span>
+              <span class="text-[10px] text-red-200 uppercase tracking-wider font-bold">Absen</span>
             </div>
             <div class="bg-gray-800/60 border border-gray-500/30 p-4 rounded-2xl text-center backdrop-blur-md">
-              <span class="block text-3xl font-bold text-gray-300 font-serif">{{ totalRagu }}</span>
+              <span class="block text-3xl font-bold text-gray-300 font-alcantera">{{ totalRagu }}</span>
               <span class="text-[10px] text-gray-300 uppercase tracking-wider font-bold">Ragu</span>
             </div>
           </div>

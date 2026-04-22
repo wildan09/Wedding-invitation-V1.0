@@ -35,7 +35,7 @@ const getMapLink = (eventData) => {
             </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-5xl mx-auto">
+        <div class="grid grid-cols-1  gap-8 md:gap-12 max-w-5xl mx-auto">
 
             <div class="event-anim group relative p-8 rounded-2xl border border-[#D4AF37]/30 bg-black/20 backdrop-blur-sm hover:border-[#D4AF37] transition-all duration-500 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)] text-center flex flex-col items-center">
                 

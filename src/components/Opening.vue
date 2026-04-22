@@ -1,13 +1,12 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { useRoute } from 'vue-router'; // Import Router
+import { useRoute } from 'vue-router'; 
 import { weddingData } from '../utilities/data';
 
 const emit = defineEmits(['open']);
 const route = useRoute();
-const isHiding = ref(false); // State untuk animasi slide-up
+const isHiding = ref(false); 
 
-// --- 1. AMBIL NAMA TAMU DARI URL ---
 const guestName = computed(() => {
   const name = route.query.to; 
   if (name) {
@@ -16,12 +15,11 @@ const guestName = computed(() => {
   return 'Tamu Spesial';
 });
 
-// --- 2. FUNGSI BUKA UNDANGAN (DENGAN ANIMASI) ---
 const openInvitation = () => {
-  // A. Trigger Animasi CSS (Slide ke atas)
+
   isHiding.value = true;
 
-  // B. Tunggu animasi selesai (800ms), baru kabari Parent untuk mainkan lagu
+ 
   setTimeout(() => {
     emit('open');
   }, 800);
@@ -59,10 +57,13 @@ const openInvitation = () => {
         @click="openInvitation"
         class="group relative px-8 py-3 bg-gold text-dark font-medium rounded-full overflow-hidden shadow-[0_0_15px_rgba(212,175,55,0.5)] transition-all hover:scale-105 active:scale-95"
       >
-        <span class="relative z-10 flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21.409 9.353a2.998 2.998 0 0 1 0 5.294L8.597 21.614C6.534 22.736 4 21.276 4 18.968V5.033c0-2.31 2.534-3.769 4.597-2.648l12.812 6.968Z"/></svg>
-          Buka Undangan
-        </span>
+       <span class="relative z-10 flex items-center gap-2">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect width="20" height="16" x="2" y="4" rx="2"/>
+    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+  </svg>
+  Buka Undangan
+</span>
       </button>
     </div>
     
