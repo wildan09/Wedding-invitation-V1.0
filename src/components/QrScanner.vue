@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, onBeforeUnmount, ref } from 'vue';
-import { Html5QrcodeScanner } from 'html5-qrcode';
+import { Html5Qrcode } from 'html5-qrcode';
 import { supabase } from '../lib/supabase';
 import { useRouter } from 'vue-router';
 
@@ -43,18 +43,34 @@ const handleCheckIn = async (name) => {
   isLoading.value = true;
   errorMessage.value = '';
 
-  const { data, error } = await supabase.from('guests').select('*').ilike('name', name).single();
+  // Kembalikan ke format slug untuk pencarian yang lebih akurat
+  const slugToSearch = name.toLowerCase().replace(/ /g, '-');
+
+  const { data, error } = await supabase.from('guests').select('*').eq('slug', slugToSearch).single();
 
   if (error || !data) {
-    errorMessage.value = `Tamu "${name}" tidak ditemukan!`;
-    isLoading.value = false;
-    return;
+    // Fallback: coba cari berdasarkan nama dengan ilike jika pencarian slug gagal
+    const { data: fallbackData, error: fallbackError } = await supabase.from('guests').select('*').ilike('name', `%${name}%`).single();
+    
+    if (fallbackError || !fallbackData) {
+      errorMessage.value = `Tamu "${name}" tidak ditemukan!`;
+      isLoading.value = false;
+      return;
+    }
+    
+    // Jika ketemu pakai fallback, gunakan data tersebut
+    proceedWithCheckIn(fallbackData);
+  } else {
+    proceedWithCheckIn(data);
   }
+};
 
+const proceedWithCheckIn = async (data) => {
   const { error: updateError } = await supabase.from('guests').update({ status: 'Hadir' }).eq('id', data.id);
 
   if (updateError) {
     errorMessage.value = "Gagal update status.";
+    isLoading.value = false;
   } else {
     guestData.value = data; 
     const audio = new Audio('https://www.soundjay.com/buttons/sounds/button-3.mp3');
@@ -69,21 +85,32 @@ const handleCheckIn = async (name) => {
 };
 
 onMounted(() => {
+  scanner = new Html5Qrcode("reader");
   const config = { 
     fps: 10, 
-    qrbox: { width: 300, height: 300 }, // Box fokus scanner diperbesar sedikit
-    videoConstraints: {
-      facingMode: "environment",
-      aspectRatio: 1.0 
-    }
+    qrbox: { width: 300, height: 300 },
+    aspectRatio: 1.0
   };
   
-  scanner = new Html5QrcodeScanner("reader", config, false);
-  scanner.render(onScanSuccess, onScanFailure);
+  scanner.start(
+    { facingMode: "environment" },
+    config,
+    onScanSuccess,
+    onScanFailure
+  ).catch((err) => {
+    console.error("Camera start error:", err);
+    errorMessage.value = "Gagal mengakses kamera. Pastikan izin diberikan.";
+  });
 });
 
 onBeforeUnmount(() => {
-  if (scanner) scanner.clear();
+  if (scanner && scanner.isScanning) {
+    scanner.stop().then(() => {
+      scanner.clear();
+    }).catch(e => console.error(e));
+  } else if (scanner) {
+    scanner.clear();
+  }
 });
 </script>
 
