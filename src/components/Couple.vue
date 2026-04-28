@@ -13,7 +13,7 @@ const bride = weddingData?.bride || defaultBride;
     
     <div class="absolute inset-0 z-0">
         <img src="/images/ART-WHITE-03-scaled-1-1.webp" class="w-full h-full object-cover" alt="BG" onerror="this.style.display='none'">
-        <div class="absolute inset-0 bg-[#1a2e25]/20"></div> 
+        <div class="absolute inset-0  bg-gradient-to-t from-black/40 via-black/10 to-black/40"></div> 
     </div>
 
     <div class="relative z-10 container mx-auto px-6 text-center">
