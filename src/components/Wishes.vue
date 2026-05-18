@@ -111,7 +111,6 @@ onMounted(() => {
                   <select v-model="attendance" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white appearance-none focus:outline-none focus:border-yellow-500 focus:bg-black/50 transition-all cursor-pointer">
                     <option value="Hadir" class="bg-gray-900">Saya akan Hadir</option>
                     <option value="Tidak Hadir" class="bg-gray-900">Maaf, Tidak Bisa Hadir</option>
-                    <option value="Masih Ragu" class="bg-gray-900">Masih Ragu</option>
                   </select>
                 </div>
               </div>
@@ -127,20 +126,16 @@ onMounted(() => {
 
         <div class="lg:col-span-7" data-aos="fade-left">
           
-          <div class="grid grid-cols-3 gap-3 mb-6">
-            <div class="bg-green-900/40 border border-green-500/30 p-4 rounded-2xl text-center backdrop-blur-md">
-              <span class="block text-3xl font-bold text-green-400 font-alcantera">{{ totalHadir }}</span>
-              <span class="text-[10px] text-green-200 uppercase tracking-wider font-bold">Hadir</span>
-            </div>
-            <div class="bg-red-900/40 border border-red-500/30 p-4 rounded-2xl text-center backdrop-blur-md">
-              <span class="block text-3xl font-bold text-red-400 font-alcantera">{{ totalTidak }}</span>
-              <span class="text-[10px] text-red-200 uppercase tracking-wider font-bold">Absen</span>
-            </div>
-            <div class="bg-gray-800/60 border border-gray-500/30 p-4 rounded-2xl text-center backdrop-blur-md">
-              <span class="block text-3xl font-bold text-gray-300 font-alcantera">{{ totalRagu }}</span>
-              <span class="text-[10px] text-gray-300 uppercase tracking-wider font-bold">Ragu</span>
-            </div>
-          </div>
+        <div class="flex gap-3 mb-6 justify-center">
+  <div class="bg-green-900/40 border border-green-500/30 p-5 rounded-2xl text-center backdrop-blur-md w-36">
+    <span class="block text-3xl font-bold text-green-400 font-alcantera">{{ totalHadir }}</span>
+    <span class="text-[10px] text-green-200 uppercase tracking-wider font-bold">Hadir</span>
+  </div>
+  <div class="bg-red-900/40 border border-red-500/30 p-5 rounded-2xl text-center backdrop-blur-md w-36">
+    <span class="block text-3xl font-bold text-red-400 font-alcantera">{{ totalTidak }}</span>
+    <span class="text-[10px] text-red-200 uppercase tracking-wider font-bold">Absen</span>
+  </div>
+</div>
 
           <div class="bg-black/40 backdrop-blur-xl rounded-3xl border border-white/10 p-1 flex flex-col h-[600px] shadow-2xl">
             <div class="p-6 border-b border-white/10 flex justify-between items-center bg-white/5 rounded-t-3xl">
