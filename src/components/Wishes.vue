@@ -133,7 +133,7 @@ onMounted(() => {
   </div>
   <div class="bg-red-900/40 border border-red-500/30 p-5 rounded-2xl text-center backdrop-blur-md w-36">
     <span class="block text-3xl font-bold text-red-400 font-alcantera">{{ totalTidak }}</span>
-    <span class="text-[10px] text-red-200 uppercase tracking-wider font-bold">Absen</span>
+    <span class="text-[10px] text-red-200 uppercase tracking-wider font-bold">Tidak Hadir"</span>
   </div>
 </div>
 
