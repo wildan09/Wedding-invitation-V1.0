@@ -67,7 +67,7 @@ onMounted(() => {
         src="/images/BACKGROUND-GREEN-PII.webp" 
         class="w-full h-full object-cover fixed top-0 left-0"
       />
-      <div class="absolute inset-0 bg-[#1a2e25]/40 "></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-[#1a2e25] via-[#1a2e25]/50 to-[#1a2e25] "></div>
       
       <div class="absolute inset-0 opacity-30 bg-[url('https://www.transparenttextures.com/patterns/black-linen.png')]"></div>
     </div>
