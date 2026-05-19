@@ -110,7 +110,7 @@ onMounted(() => {
                 <div class="relative">
                   <select v-model="attendance" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white appearance-none focus:outline-none focus:border-yellow-500 focus:bg-black/50 transition-all cursor-pointer">
                     <option value="Hadir" class="bg-gray-900">Saya akan Hadir</option>
-                    <option value="Tidak Hadir" class="bg-gray-900">Maaf, Tidak Bisa Hadir</option>
+                    <option value="Tidak Hadir" class="bg-gray-900">Mohon Maaf, Saya Tidak Bisa Hadir</option>
                   </select>
                 </div>
               </div>
@@ -133,7 +133,7 @@ onMounted(() => {
   </div>
   <div class="bg-red-900/40 border border-red-500/30 p-5 rounded-2xl text-center backdrop-blur-md w-36">
     <span class="block text-3xl font-bold text-red-400 font-alcantera">{{ totalTidak }}</span>
-    <span class="text-[10px] text-red-200 uppercase tracking-wider font-bold">Tidak Hadir"</span>
+    <span class="text-[10px] text-red-200 uppercase tracking-wider font-bold">Tidak Hadir</span>
   </div>
 </div>
 
